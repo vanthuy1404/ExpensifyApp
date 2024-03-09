@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Sổ giao dịch" android:id="@+id/trade" android:icon="@drawable/outline_account_balance_wallet_24" />
+    <item android:title="Thêm giao dịch" android:id="@+id/add" android:icon="@drawable/outline_add_box_24" />
+    <item android:title="Báo cáo" android:id="@+id/report" android:icon="@drawable/outline_add_chart_24" />
+    <item android:title="Lịch sử" android:id="@+id/history" android:icon="@drawable/baseline_access_time_filled_24" />
+</menu>
