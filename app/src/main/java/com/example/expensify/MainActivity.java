@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.example.expensify.R;
 import com.example.expensify.add_fragment;
-import com.example.expensify.history_fragment;
+import com.example.expensify.user_fragment;
 import com.example.expensify.report_fragment;
 import com.example.expensify.trade_fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
-    private Fragment addFragment, tradeFragment, historyFragment, reportFragment;
+    private Fragment addFragment, tradeFragment, reportFragment, userFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
         addFragment = new add_fragment();
         tradeFragment = new trade_fragment();
-        historyFragment = new history_fragment();
         reportFragment = new report_fragment();
+        userFragment = new user_fragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
         loadFragment(addFragment);
@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.trade) {
                     loadFragment(tradeFragment);
                     return true;
-                } else if (itemId == R.id.history) {
-                    loadFragment(historyFragment);
+                } else if (itemId == R.id.user) {
+                    loadFragment(userFragment);
                     return true;
                 } else if (itemId == R.id.report) {
                     loadFragment(reportFragment);
