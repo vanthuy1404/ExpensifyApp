@@ -8,11 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.expensify.R;
-import com.example.expensify.add_fragment;
-import com.example.expensify.user_fragment;
-import com.example.expensify.report_fragment;
-import com.example.expensify.trade_fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        addFragment = new add_fragment();
-        tradeFragment = new trade_fragment();
-        reportFragment = new report_fragment();
-        userFragment = new user_fragment();
+        addFragment = new AddFragment();
+        tradeFragment = new TradeFragment();
+        reportFragment = new ReportFragment();
+        userFragment = new UserFragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
         loadFragment(addFragment);
