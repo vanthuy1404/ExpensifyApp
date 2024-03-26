@@ -1,16 +1,28 @@
 package com.example.expensify;
 
+import android.text.format.Time;
+import android.util.Log;
+
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
+
 public class TransactionModel {
 
     private String id, categoryDetail, categoryId, note, userId, walletId, createdAt, updatedAt;
     private Double amount;
 
 //    public TransactionModel(String id, String categoryDetail, String categoryId, String note, String userId, String walletId, String amount, String createdAt, String updatedAt) {
-    public TransactionModel(String id, String categoryDetail, String note, Double amount) {
+    public TransactionModel(String id, String categoryDetail, String note, Double amount, String categoryId, String userId, String walletId, String createdAt, String updatedAt) {
         this.id = id;
         this.categoryDetail = categoryDetail;
         this.note = note;
         this.amount = amount;
+        this.categoryId = categoryId;
+        this.userId = userId;
+        this.walletId = walletId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getId() {

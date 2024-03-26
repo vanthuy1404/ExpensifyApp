@@ -1,15 +1,21 @@
 package com.example.expensify;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.Timestamp;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyViewHolder> {
     Context context;
@@ -23,17 +29,25 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_transaction_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_transaction_item, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TransactionAdapter.MyViewHolder holder, int position) {
         TransactionModel model = transactionModelArrayList.get(position);
-        holder.amount.setText(String.valueOf(model.getAmount()));
-        holder.date.setText("Hôm nay");
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        holder.amount.setText(decimalFormat.format(model.getAmount()));
+        holder.date.setText(model.getCreatedAt());
         holder.note.setText(model.getNote());
         holder.category.setText(model.getCategoryDetail());
+
+        if (model.getCategoryId().equals("category/0sZQzPZx64wLdM4aauqZ")) {
+            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.red));
+        } else {
+            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.green));
+        }
     }
 
     @Override
