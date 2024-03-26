@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         userFragment = new UserFragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
-        loadFragment(addFragment);
+        loadFragment(tradeFragment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

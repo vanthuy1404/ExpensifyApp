@@ -1,12 +1,33 @@
 package com.example.expensify;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.auth.FirebaseAuthException;
+
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,11 +44,15 @@ public class TradeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuthException firebaseAuth;
+    private ArrayList<TransactionModel> transactionModelArrayList;
+    private TransactionAdapter transactionAdapter;
+    private RecyclerView transactionRecyclerView;
     public TradeFragment() {
         // Required empty public constructor
     }
-
+    private Context context;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -53,12 +78,81 @@ public class TradeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        transactionModelArrayList = new ArrayList<>();
+        loadData();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trade_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_trade_fragment, container, false);
+        transactionRecyclerView = view.findViewById(R.id.transactions_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        transactionRecyclerView.setLayoutManager(layoutManager);
+        transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
+        transactionRecyclerView.setAdapter(transactionAdapter);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView transactionsView = view.findViewById(R.id.transactions_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        transactionsView.setLayoutManager(layoutManager);
+        transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
+        transactionsView.setAdapter(transactionAdapter);
+    }
+
+
+    private void loadData() {
+//        firebaseFirestore.collection("expense").document();
+        Log.d("Document", "Run LoadData()");
+        CollectionReference expenseCollectionRef = firebaseFirestore.collection("expense");
+//        Query query = expenseCollectionRef.whereEqualTo("user_id", "oV7QOeQQAAY703JebyXk");
+        expenseCollectionRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                TransactionModel model = new TransactionModel(
+//                                        document.getId(),
+//                                        document.getString("category_detail"),
+//                                        document.get("category_id"),
+//                                        document.getString("note"),
+//                                        document.getString("user_id"),
+//                                        document.getString("wallet_id"),
+//                                        document.getString("amount"),
+//                                        document.getString("created_at"),
+//                                        document.getString("updated_at")
+//                                );
+                                TransactionModel model = new TransactionModel(
+                                        document.getId(),
+                                        document.getString("category_detail"),
+                                        document.getString("note"),
+                                        document.getDouble("amount")
+                                );
+                                transactionModelArrayList.add(model);
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                            for (int i = 0; i < transactionModelArrayList.size(); i++) {
+                                Log.d(TAG, transactionModelArrayList.get(i).getNote());
+                            }
+                            transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
+//                            transactionAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }

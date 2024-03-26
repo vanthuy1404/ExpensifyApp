@@ -55,6 +55,7 @@ public class UserFragment extends Fragment {
     }
 
     public String username;
+    public String note;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,18 +66,38 @@ public class UserFragment extends Fragment {
         }
 
 
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document("oV7QOeQQAAY703JebyXk");
+//        DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document("oV7QOeQQAAY703JebyXk");
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot doc = task.getResult();
+//                    if (doc.exists()) {
+//                        username = doc.getString("username");
+//                        Log.d("Document", "Username: " + username);
+//                    } else {
+//                        Log.d("Document", "No data");
+//                    }
+//                }
+//            }
+//        });
+
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("expense").document("AnNmVbE2TuIhlznpCmai");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+                    Log.d("Document", "task is succeed");
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        username = doc.getString("username");
-                        Log.d("Document", "Username: " + username);
+                        note = doc.getString("note");
+                        Log.d("Document", "Note: " + note);
                     } else {
                         Log.d("Document", "No data");
                     }
+                } else {
+                    Log.d("Document", "None task done");
+                    Log.d("Document", "Error getting document: " + task.getException());
                 }
             }
         });
