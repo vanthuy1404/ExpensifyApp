@@ -178,13 +178,13 @@ public class add_fragment extends Fragment {
                 Object item = parent.getItemAtPosition(position);
 
                 if (("Expense").equals(item.toString())) {
-                    categoryID = "0sZQzPZx64wLdM4aauqZ";
+                    categoryID = "category/0sZQzPZx64wLdM4aauqZ";
                     Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerExpense);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerSelectionCategory.setAdapter(adapter);
                 } else if (("Income").equals(item.toString())) {
-                    categoryID = "mQWS7VpkMR6BPlhknobM";
+                    categoryID = "category/mQWS7VpkMR6BPlhknobM";
                     Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerIncome);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
