@@ -1,7 +1,12 @@
 package com.example.expensify;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 
@@ -11,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.os.Debug;
+import android.os.LocaleList;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -52,17 +60,73 @@ public class add_fragment extends Fragment {
     private String mParam2;
     private FirebaseFirestore fireStore;
 
+    Spinner languageChange;
     private String categoryID;
 
-    String[] category={"Expense", "Income"};
+    String[] category= {"Chi phí", "Thu nhập"};
+
+    String[] categoryEng={ "Expense", "Income"};
+
+    String[] categoryFra= {"Dépense", "Revenu"};
 
     String[] arraySpinnerExpense = new String[]{
             "Ăn uống", "Hóa đơn & Tiện ích", "Mua sắm", "Gia đình", "Di chuyển", "Sức khỏe", "Giáo dục", "Quà tặng & Quyên góp", "Giải trí", "Bảo hiểm", "Đầu tư", "Các chi phí khác"
     };
 
+    String[] arraySpinnerExpenseEng = new String[]{
+            "Food & Beverage",
+            "Bills & Utilities",
+            "Shopping",
+            "Family",
+            "Transportation",
+            "Health",
+            "Education",
+            "Gifts & Donations",
+            "Entertainment",
+            "Insurance",
+            "Investments",
+            "Other Expenses"
+    };
+
+    String[] arraySpinnerExpenseFra = new String[]{
+            "Nourriture et Boissons",
+            "Factures et Services Publics",
+            "Achats",
+            "Famille",
+            "Transport",
+            "Santé",
+            "Éducation",
+            "Cadeaux et Dons",
+            "Divertissement",
+            "Assurance",
+            "Investissements",
+            "Autres Dépenses"
+    };
+
     String[] arraySpinnerIncome = new String[]{
             "Lương", "Thưởng", "Lãi", "Tiền chuyển đến", "Thu nhập khác"
     };
+
+    String[] arraySpinnerIncomeEng = new String[]{
+            "Salary",
+            "Bonus",
+            "Interest",
+            "Money Transfers",
+            "Other Income"
+    };
+
+    String[] arraySpinnerIncomeFra = new String[]{
+            "Salaire",
+            "Bonus",
+            "Intérêts",
+            "Transferts d'Argent",
+            "Autres Revenus"
+    };
+
+
+    public static final String[] languages = { "Vietnamese", "English", "French" };
+
+    private ArrayAdapter<String> adapter;
 
     private  interface  DiaglogInterface {
         void onClick(DialogInterface dialog, int which);
@@ -91,6 +155,8 @@ public class add_fragment extends Fragment {
         return fragment;
     }
 
+    private SharedPreferences userLanguage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +165,18 @@ public class add_fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    private void ResetInputField() {
+        EditText editTextExpenseAmount = getView().findViewById(R.id.editTextExpenseAmount);
+        EditText editTextExpenseContent = getView().findViewById(R.id.editTextExpenseContent);
+        EditText editTextDate = getView().findViewById(R.id.editTextDate);
+        Spinner spinnerSelectionCategory = getView().findViewById(R.id.spinnerSelectionCategory);
+
+        editTextExpenseAmount.setText("");
+        editTextExpenseContent.setText("");
+        editTextDate.setText("");
+        spinnerSelectionCategory.setSelection(0);
     }
 
     private void getDataFromUser() {
@@ -112,13 +190,13 @@ public class add_fragment extends Fragment {
         String dateString = editTextDate.getText().toString();
         String expenseSelectionCategory = spinnerSelectionCategory.getSelectedItem().toString();
 
-        Map<String, String> expense = new HashMap<>();
+        Map<String, Object> expense = new HashMap<>();
 
-        expense.put("created_at", dateString);
+        expense.put("created_at", myCalendar.getTime());
         expense.put("amount", expenseAmount);
         expense.put("note", expenseContent);
-        expense.put("catogory_detail", expenseSelectionCategory);
-        expense.put("catogory_id", categoryID);
+        expense.put("category_detail", expenseSelectionCategory);
+        expense.put("category_id", categoryID);
 
         AlertDialog ad = new AlertDialog.Builder(getActivity())
                 .create();
@@ -147,6 +225,7 @@ public class add_fragment extends Fragment {
         Button add = getView().findViewById(R.id.buttonAddExpense);
         add.setOnClickListener((e) -> {
             getDataFromUser();
+            ResetInputField();
         });
         getView().findViewById(R.id.datePicker).setOnClickListener(e -> {
             new DatePickerDialog(
@@ -164,36 +243,148 @@ public class add_fragment extends Fragment {
                     myCalendar.get(Calendar.YEAR),
                     myCalendar.get(Calendar.MONTH),
                     myCalendar.get((Calendar.DATE))).show();
+            myCalendar.getTime();
         });
 
+        userLanguage = requireActivity().getSharedPreferences("userLanguage", requireActivity().MODE_PRIVATE);
+
+        languageChange = getView().findViewById(R.id.languageSpinner);
+
+        ArrayAdapter<String> languageAdapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, languages);
+        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageChange.setAdapter(languageAdapter);
+        languageChange.setSelection(0);
+
+        String currentLocale = userLanguage.getString("language", "vi");
+        String activityLocale = requireActivity().getResources().getConfiguration().getLocales().get(0).getLanguage();
         Spinner categorySelect = getView().findViewById(R.id.spinnerCategory);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, category);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySelect.setAdapter(adapter);
-        categorySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        if (!activityLocale.equals(currentLocale)) {
+            setLocale(currentLocale);
+        }
+        if (currentLocale.equals("vi")) {
+            languageChange.setSelection(0);
+        }
+        else if (currentLocale.equals("en")) {
+            languageChange.setSelection(1);
+        }
+        else if (currentLocale.equals("fr")) {
+            languageChange.setSelection(2);
+        }
+        languageChange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // An item was selected. You can retrieve the selected item using
-                // parent.getItemAtPosition(pos)
                 Object item = parent.getItemAtPosition(position);
+                if (("Vietnamese").equals(item.toString())) {
+                    String currentLocale = userLanguage.getString("language", "vi");
+                    adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, category);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categorySelect.setAdapter(adapter);
+                    categorySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            // An item was selected. You can retrieve the selected item using
+                            // parent.getItemAtPosition(pos)
+                            Object item = parent.getItemAtPosition(position);
 
-                if (("Expense").equals(item.toString())) {
-                    categoryID = "category/0sZQzPZx64wLdM4aauqZ";
-                    Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerExpense);
+                            if (("Expense").equals(item.toString()) || ("Dépense").equals(item.toString()) || ("Chi phí").equals(item.toString())) {
+                                categoryID = "category/0sZQzPZx64wLdM4aauqZ";
+                                Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerExpense);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerSelectionCategory.setAdapter(adapter);
+                            } else if (("Income").equals(item.toString()) || ("Revenu").equals(item.toString()) || ("Thu nhập").equals(item.toString())){
+                                categoryID = "category/mQWS7VpkMR6BPlhknobM";
+                                Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerIncome);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerSelectionCategory.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    if (!currentLocale.equals("vi")) {
+                        setLocale("vi");
+                    }
+                }
+                else if (("English").equals(item.toString())) {
+                    String currentLocale = userLanguage.getString("language", "en");
+                    adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, categoryEng);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerSelectionCategory.setAdapter(adapter);
-                } else if (("Income").equals(item.toString())) {
-                    categoryID = "category/mQWS7VpkMR6BPlhknobM";
-                    Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerIncome);
+                    categorySelect.setAdapter(adapter);
+                    categorySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            // An item was selected. You can retrieve the selected item using
+                            // parent.getItemAtPosition(pos)
+                            Object item = parent.getItemAtPosition(position);
+
+                            if (("Expense").equals(item.toString()) || ("Dépense").equals(item.toString()) || ("Chi phí").equals(item.toString())) {
+                                categoryID = "category/0sZQzPZx64wLdM4aauqZ";
+                                Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerExpenseEng);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerSelectionCategory.setAdapter(adapter);
+                            } else if (("Income").equals(item.toString()) || ("Revenu").equals(item.toString()) || ("Thu nhập").equals(item.toString())){
+                                categoryID = "category/mQWS7VpkMR6BPlhknobM";
+                                Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerIncome);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerSelectionCategory.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    if (!currentLocale.equals("en")) {
+                        setLocale("en");
+                    }
+                }
+                else if (("French").equals(item.toString())) {
+                    String currentLocale = userLanguage.getString("language", "fr");
+                    adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, categoryFra);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerSelectionCategory.setAdapter(adapter);
+                    categorySelect.setAdapter(adapter);
+                    categorySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            // An item was selected. You can retrieve the selected item using
+                            // parent.getItemAtPosition(pos)
+                            Object item = parent.getItemAtPosition(position);
+
+                            if (("Expense").equals(item.toString()) || ("Dépense").equals(item.toString()) || ("Chi phí").equals(item.toString())) {
+                                categoryID = "category/0sZQzPZx64wLdM4aauqZ";
+                                Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerExpenseFra);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerSelectionCategory.setAdapter(adapter);
+                            } else if (("Income").equals(item.toString()) || ("Revenu").equals(item.toString()) || ("Thu nhập").equals(item.toString())){
+                                categoryID = "category/mQWS7VpkMR6BPlhknobM";
+                                Spinner spinnerSelectionCategory = (Spinner) getView().findViewById(R.id.spinnerSelectionCategory);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, arraySpinnerIncome);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerSelectionCategory.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    if (!currentLocale.equals("fr")) {
+                        setLocale("fr");
+                    }
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected (AdapterView < ? > parent){
 
             }
         });
@@ -204,5 +395,17 @@ public class add_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_fragment, container, false);
+    }
+
+    private void setLocale(String localeCode){
+        userLanguage.edit().putString("language", localeCode).apply();
+        Resources resources = getResources();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(new Locale(localeCode.toLowerCase()));
+        resources.updateConfiguration(configuration, displayMetrics);
+        configuration.locale = new Locale(localeCode.toLowerCase());
+        resources.updateConfiguration(configuration, displayMetrics);
+        requireActivity().recreate();
     }
 }
