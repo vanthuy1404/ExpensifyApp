@@ -1,39 +1,36 @@
 package com.example.expensify;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.expensify.R;
-import com.example.expensify.add_fragment;
-import com.example.expensify.user_fragment;
-import com.example.expensify.report_fragment;
-import com.example.expensify.trade_fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigationrail.NavigationRailView;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-
     private Fragment addFragment, tradeFragment, reportFragment, userFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         addFragment = new add_fragment();
         tradeFragment = new trade_fragment();
-        reportFragment = new report_fragment();
+        reportFragment = new ReportFragment();
         userFragment = new user_fragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
         loadFragment(addFragment);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -55,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
 
     private void loadFragment(Fragment fragment) {
