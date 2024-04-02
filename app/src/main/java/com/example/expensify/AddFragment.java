@@ -1,9 +1,7 @@
 package com.example.expensify;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -15,39 +13,31 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.os.Debug;
-import android.os.LocaleList;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Array;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link add_fragment#newInstance} factory method to
+ * Use the {@link AddFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class add_fragment extends Fragment {
+public class AddFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -104,23 +94,23 @@ public class add_fragment extends Fragment {
     };
 
     String[] arraySpinnerIncome = new String[]{
-            "Lương", "Thưởng", "Lãi", "Tiền chuyển đến", "Thu nhập khác"
+            "Lương", "Các khoản thu khác", "Lãi", "Tiền chuyển đến", "Thu nhập khác"
     };
 
     String[] arraySpinnerIncomeEng = new String[]{
             "Salary",
-            "Bonus",
+            "Other Income",
             "Interest",
             "Money Transfers",
-            "Other Income"
+            "Others"
     };
 
     String[] arraySpinnerIncomeFra = new String[]{
             "Salaire",
-            "Bonus",
+            "Autres Revenus",
             "Intérêts",
             "Transferts d'Argent",
-            "Autres Revenus"
+            "Autres"
     };
 
 
@@ -133,7 +123,7 @@ public class add_fragment extends Fragment {
 
     };
 
-    public add_fragment() {
+    public AddFragment() {
         // Required empty public constructor
     }
 
@@ -143,11 +133,11 @@ public class add_fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment add_fragment.
+     * @return A new instance of fragment AddFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static add_fragment newInstance(String param1, String param2) {
-        add_fragment fragment = new add_fragment();
+    public static AddFragment newInstance(String param1, String param2) {
+        AddFragment fragment = new AddFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -179,8 +169,9 @@ public class add_fragment extends Fragment {
         spinnerSelectionCategory.setSelection(0);
     }
 
-    private void getDataFromUser() {
+    private void getDataFromUser() throws ParseException {
         EditText editTextExpenseAmount = getView().findViewById(R.id.editTextExpenseAmount);
+        Number finalAmount = NumberFormat.getInstance().parse(editTextExpenseAmount.getText().toString());
         EditText editTextExpenseContent = getView().findViewById(R.id.editTextExpenseContent);
         EditText editTextDate = getView().findViewById(R.id.editTextDate);
         Spinner spinnerSelectionCategory = getView().findViewById(R.id.spinnerSelectionCategory);
@@ -193,7 +184,7 @@ public class add_fragment extends Fragment {
         Map<String, Object> expense = new HashMap<>();
 
         expense.put("created_at", myCalendar.getTime());
-        expense.put("amount", expenseAmount);
+        expense.put("amount", finalAmount);
         expense.put("note", expenseContent);
         expense.put("category_detail", expenseSelectionCategory);
         expense.put("category_id", categoryID);
@@ -224,7 +215,11 @@ public class add_fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button add = getView().findViewById(R.id.buttonAddExpense);
         add.setOnClickListener((e) -> {
-            getDataFromUser();
+            try {
+                getDataFromUser();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
             ResetInputField();
         });
         getView().findViewById(R.id.datePicker).setOnClickListener(e -> {
