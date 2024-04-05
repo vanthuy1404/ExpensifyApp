@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Tổng chi tháng này(%)"
+            android:text="@string/totalOutcome_currentMonth"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Tổng chi tháng này: "
+                android:text="@string/totalOutcome_currentMonth"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="normal" />
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="1. Ăn uống"
+                android:text="@string/foodAndDrink"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="2. Hóa đơn  Tiện ích"
+                android:text="@string/billAndUtilities"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="3. Mua sắm"
+                android:text="@string/shopping"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="4. Gia đình"
+                android:text="@string/family"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="5. Di chuyển"
+                android:text="@string/transportations"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="6. Sức khỏe"
+                android:text="@string/health"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="7. Giáo dục"
+                android:text="@string/education"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="8. Quà tặng  Quyên góp"
+                android:text="@string/giftAndDonation"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="9. Giải trí"
+                android:text="@string/entertainment"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="10. Bảo hiểm"
+                android:text="@string/insurance"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -147,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="11. Đầu tư"
+                android:text="@string/investment"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -157,7 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="12. Các chi phí khác"
+                android:text="@string/otherExpenses"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -166,7 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="13. Chi tháng trước"
+                android:text="@string/totalOutcome_lastMonth"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
@@ -180,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:text="Cập nhật"
+            android:text="@string/update"
             android:textSize="16sp" />
 
     </LinearLayout>

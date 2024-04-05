@@ -197,20 +197,22 @@ public class ChiFragment extends Fragment {
         TextView tongChiThangTruocTextView = rootView.findViewById(R.id.chi_thang_truoc);
 
 
-        detail1.setText("1. Ăn uống: " + an_uong + " VND");
-        detail2.setText("2. Hóa đơn Tiện ích: " + hoa_don_tien_ich + " VND");
-        detail3.setText("3. Mua sắm: " + mua_sam + " VND");
-        detail4.setText("4. Gia đình: " + gia_dinh + " VND");
-        detail5.setText("5. Di chuyển: " + di_chuyen + " VND");
-        detail6.setText("6. Sức khỏe: " + suc_khoe + " VND");
-        detail7.setText("7. Giáo dục: " + giao_duc + " VND");
-        detail8.setText("8. Quà tặng Quyên góp: " + qua_tang_quyen_gop + " VND");
-        detail9.setText("9. Giải trí: " + giai_tri + " VND");
-        detail10.setText("10. Bảo hiểm: " + bao_hiem + " VND");
-        detail11.setText("11. Đầu tư: " + dau_tu + " VND");
-        detail12.setText("12. Các chi phí khác: " + cac_chi_phi_khac + " VND");
-        tongChiThangNayTextView.setText("Tổng chi tháng này: "+ tong_chi_currentMonth+" VND");
-        tongChiThangTruocTextView.setText("Tổng chi tháng trước: "+ tong_chi_lastMonth+" VND");
+        // Sử dụng giá trị từ strings.xml và thiết lập text cho các TextView
+        detail1.setText(getString(R.string.foodAndDrink) + ": " + an_uong + " VND");
+        detail2.setText(getString(R.string.billAndUtilities) + ": " + hoa_don_tien_ich + " VND");
+        detail3.setText(getString(R.string.shopping) + ": " + mua_sam + " VND");
+        detail4.setText(getString(R.string.family) + ": " + gia_dinh + " VND");
+        detail5.setText(getString(R.string.transportations) + ": " + di_chuyen + " VND");
+        detail6.setText(getString(R.string.health) + ": " + suc_khoe + " VND");
+        detail7.setText(getString(R.string.education) + ": " + giao_duc + " VND");
+        detail8.setText(getString(R.string.giftAndDonation) + ": " + qua_tang_quyen_gop + " VND");
+        detail9.setText(getString(R.string.entertainment) + ": " + giai_tri + " VND");
+        detail10.setText(getString(R.string.insurance) + ": " + bao_hiem + " VND");
+        detail11.setText(getString(R.string.investment) + ": " + dau_tu + " VND");
+        detail12.setText(getString(R.string.otherExpenses) + ": " + cac_chi_phi_khac + " VND");
+        tongChiThangNayTextView.setText(getString(R.string.totalOutcome_currentMonth) + ": " + tong_chi_currentMonth + " VND");
+        tongChiThangTruocTextView.setText(getString(R.string.totalOutcome_lastMonth) + ": " + tong_chi_lastMonth + " VND");
+
 
 
         List<DataEntry> data = new ArrayList<>();

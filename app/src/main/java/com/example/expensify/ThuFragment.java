@@ -163,13 +163,15 @@ public class ThuFragment extends Fragment {
 
 
 // Đặt văn bản cho mỗi TextView từ giá trị tương ứng
-        tongThuThangNayTextView.setText("Tổng thu tháng này: "+ tong_thu_currentMonth+" VND");
-        luongTextView.setText("1. Lương: " + luong +" VND");
-        thuNhapKhacTextView.setText("2. Thu nhập khác: " + thu_nhap_khac+" VND");
-        tienChuyenDenTextView.setText("3. Tiền chuyển đến: " + tien_chuyen_den+" VND");
-        thuLaiTextView.setText("4. Thu lãi: " + thu_lai+" VND");
-        cacKhoanThuKhacTextView.setText("5. Các khoản thu khác: " + cac_khoan_thu_khac+" VND");
-        tongThuThangTruocTextView.setText("Tổng thu tháng trước: "+ tong_thu_lastMonth+" VND");
+        // Sử dụng giá trị từ strings.xml và thiết lập text cho các TextView
+        tongThuThangNayTextView.setText(getString(R.string.totalIncome_currentMonth) + ": " + tong_thu_currentMonth + " VND");
+        luongTextView.setText(getString(R.string.salary) + ": " + luong + " VND");
+        thuNhapKhacTextView.setText(getString(R.string.otherIncome) + ": " + thu_nhap_khac + " VND");
+        tienChuyenDenTextView.setText(getString(R.string.moneyTransferred) + ": " + tien_chuyen_den + " VND");
+        thuLaiTextView.setText(getString(R.string.interest) + ": " + thu_lai + " VND");
+        cacKhoanThuKhacTextView.setText(getString(R.string.otherRevenues) + ": " + cac_khoan_thu_khac + " VND");
+        tongThuThangTruocTextView.setText(getString(R.string.totalIncome_lastMonth) + ": " + tong_thu_lastMonth + " VND");
+
 
 
         BarChart barChartNew = rootView.findViewById(R.id.barChart1);
