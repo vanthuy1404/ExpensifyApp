@@ -34,7 +34,7 @@ public class TradeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment trade_fragment.
+     * @return A new instance of fragment TradeFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static TradeFragment newInstance(String param1, String param2) {

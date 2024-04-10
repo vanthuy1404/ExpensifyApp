@@ -2,19 +2,11 @@ package com.example.expensify;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +34,7 @@ public class UserFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment user_fragment.
+     * @return A new instance of fragment UserFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static UserFragment newInstance(String param1, String param2) {
@@ -54,8 +46,6 @@ public class UserFragment extends Fragment {
         return fragment;
     }
 
-    public String username;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,24 +53,6 @@ public class UserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document("oV7QOeQQAAY703JebyXk");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    if (doc.exists()) {
-                        username = doc.getString("username");
-                        Log.d("Document", "Username: " + username);
-                    } else {
-                        Log.d("Document", "No data");
-                    }
-                }
-            }
-        });
-
     }
 
     @Override
