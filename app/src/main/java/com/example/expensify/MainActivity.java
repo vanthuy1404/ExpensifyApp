@@ -23,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        addFragment = new add_fragment();
-        tradeFragment = new trade_fragment();
+
+
+        addFragment = new AddFragment();
+        tradeFragment = new TradeFragment();
         reportFragment = new ReportFragment();
-        userFragment = new user_fragment();
+        userFragment = new UserFragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
         loadFragment(addFragment);

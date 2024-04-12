@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Expensify</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -23,4 +24,9 @@
     <string name="insurance">Bảo hiểm</string>
     <string name="investment">Đầu tư</string>
     <string name="otherExpenses">Các chi phí khác</string>
+    <string name="accept">Xác nhận</string>
+    <string name="ngay">Ngày</string>
+    <string name="content">Nội dung</string>
+    <string name="amount">Số tiền</string>
+    <string name="add">Thêm</string>
 </resources>

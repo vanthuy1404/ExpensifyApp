@@ -24,4 +24,9 @@
     <string name="insurance">Assurance</string>
     <string name="investment">Investissement</string>
     <string name="otherExpenses">Autres dépenses</string>
+    <string name="accept">Confirmer</string>
+    <string name="ngay">Dattes</string>
+    <string name="content">Contenu</string>
+    <string name="amount">Somme</string>
+    <string name="add">Ajouter</string>
 </resources>
