@@ -1,6 +1,8 @@
 package com.example.expensify;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.Timestamp;
@@ -57,12 +64,33 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView note, amount, category, date;
+        CardView transactionItem;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             note = itemView.findViewById(R.id.txtNote);
             amount = itemView.findViewById(R.id.txtAmount);
             category = itemView.findViewById(R.id.txtCategory);
             date = itemView.findViewById(R.id.txtDate);
+            transactionItem = itemView.findViewById(R.id.transactionItem);
+
+            transactionItem.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    TransactionModel transaction = transactionModelArrayList.get(position);
+                    TransactionDetailFragment fragment = new TransactionDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("transaction", transaction);
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.Frame_layout, fragment)
+                            .addToBackStack(null)
+                            .commit();
+//                    Intent intent = new Intent(context, TransactionDetailFragment.class);
+
+                }
+            });
+
         }
     }
 }

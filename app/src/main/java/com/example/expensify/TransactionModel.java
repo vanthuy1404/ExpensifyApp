@@ -5,15 +5,16 @@ import android.util.Log;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TransactionModel {
+public class TransactionModel implements Serializable {
 
     private String id, categoryDetail, categoryId, note, userId, walletId, createdAt, updatedAt;
     private Double amount;
 
 //    public TransactionModel(String id, String categoryDetail, String categoryId, String note, String userId, String walletId, String amount, String createdAt, String updatedAt) {
-    public TransactionModel(String id, String categoryDetail, String note, Double amount, String categoryId, String userId, String walletId, String createdAt, String updatedAt) {
+    public TransactionModel(String id, String categoryDetail, String note, Double amount, String categoryId, String userId, String walletId, String createdAt) {
         this.id = id;
         this.categoryDetail = categoryDetail;
         this.note = note;
@@ -22,7 +23,6 @@ public class TransactionModel {
         this.userId = userId;
         this.walletId = walletId;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public String getId() {

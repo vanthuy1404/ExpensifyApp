@@ -61,7 +61,7 @@ public class TradeFragment extends Fragment {
     }
     private Context context;
     private TextView balanceTextView;
-    int balance = 0;
+    private boolean isFirstRender = true;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -121,6 +121,16 @@ public class TradeFragment extends Fragment {
         transactionsView.setAdapter(transactionAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isFirstRender) {
+            // Reload data to update balanceTextView
+            resetUI();
+            loadData();
+        }
+        isFirstRender = false;
+    }
 
     private void loadData() {
 //       firebaseFirestore.collection("expense").document();
@@ -129,14 +139,12 @@ public class TradeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        double balance = 0;
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Timestamp createdAtdata = document.getTimestamp("created_at");
                                 long createdMillisecs = createdAtdata.getSeconds() * 1000 + createdAtdata.getNanoseconds() / 1000;
                                 Date createdDate = new Date(createdMillisecs);
-                                Timestamp updateAtdata = document.getTimestamp("update_at");
-                                long updatedMillisecs = updateAtdata.getSeconds() * 1000 + updateAtdata.getNanoseconds() / 1000;
-                                Date updateDate = new Date(updatedMillisecs);
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                                 TransactionModel model = new TransactionModel(
                                         document.getId(),
@@ -146,12 +154,12 @@ public class TradeFragment extends Fragment {
                                         document.getString("category_id"),
                                         document.getString("user_id"),
                                         document.getString("wallet_id"),
-                                        sdf.format(createdDate),
-                                        sdf.format(updateDate)
+                                        sdf.format(createdDate)
                                 );
                                 double doubleAmount = document.getDouble("amount");
-                                int amount = (int) doubleAmount;
-                                if (document.getString("category_id").equals("category/0sZQzPZx64wLdM4aauqZ")) {
+                                double amount = (double) doubleAmount;
+
+                                if ("category/0sZQzPZx64wLdM4aauqZ".equals(document.getString("category_id"))) {
                                     balance = balance - amount;
                                 } else {
                                     balance = balance + amount;
@@ -161,7 +169,6 @@ public class TradeFragment extends Fragment {
                             }
                             DecimalFormat decimalFormat = new DecimalFormat("#,###");
                             balanceTextView.setText(decimalFormat.format(balance));
-
                             Log.d(TAG, "Add data to transactionModelArrayList succeed!");
                             transactionAdapter.notifyDataSetChanged();
                         } else {
@@ -169,5 +176,12 @@ public class TradeFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void resetUI() {
+        // Reset UI elements here
+        // For example, clear RecyclerView data, reset balanceTextView, etc.
+        transactionModelArrayList.clear(); // Clear the ArrayList
+        transactionAdapter.notifyDataSetChanged(); // Notify the adapter that the dataset has changed
     }
 }

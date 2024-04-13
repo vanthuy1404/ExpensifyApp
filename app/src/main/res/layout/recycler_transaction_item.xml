@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
     android:layout_marginVertical="4dp"
+    android:background="@color/white"
     android:id="@+id/transactionItem">
     <LinearLayout
         android:orientation="vertical"
