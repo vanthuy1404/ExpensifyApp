@@ -1,0 +1,33 @@
+<resources>
+    <string-array name="categories">
+        <item>Expense</item>
+        <item>Income</item>
+    </string-array>
+
+    <string-array name="expense_categories">
+        id="0sZQzPZx64wLdM4aauqZ"
+        <item></item>
+        <item>Ăn uống</item>
+        <item>Hóa đơn và Tiện ích</item>
+        <item>Mua sẵm</item>
+        <item>Gia đình</item>
+        <item>Di chuyển</item>
+        <item>Sức khỏe</item>
+        <item>Giáo dục</item>
+        <item>Quà tặng và quyên góp</item>
+        <item>Giải trí</item>
+        <item>Bảo hiểm</item>
+        <item>Đầu tư</item>
+        <item>Các chi phí khác</item>
+    </string-array>
+
+    <string-array name="income_categories">
+        id="mQWS7VpkMR6BPlhknobM"
+        <item></item>
+        <item>Lương</item>
+        <item>Tiền chuển đến</item>
+        <item>Thu lãi</item>
+        <item>Thu nhập khác</item>
+        <item>Các khoản thu khác</item>
+    </string-array>
+</resources>

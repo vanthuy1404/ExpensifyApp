@@ -34,7 +34,7 @@ public class ReportFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment report_fragment.
+     * @return A new instance of fragment ReportFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ReportFragment newInstance(String param1, String param2) {
