@@ -29,6 +29,8 @@ public class SignUpActivity extends AppCompatActivity {
     private Button signupButton;
     private TextView loginRedirectText;
 
+    public static String user_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            user_id = userId;
                             Log.d("SignUpActivity", "Tạo tài liệu người dùng thành công!");
                         } else {
                             Log.w("SignUpActivity", "Lỗi tạo tài liệu người dùng: " + task.getException().getMessage());
