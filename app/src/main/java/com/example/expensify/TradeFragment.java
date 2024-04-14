@@ -63,6 +63,7 @@ public class TradeFragment extends Fragment {
     private Context context;
     private TextView balanceTextView;
     private boolean isFirstRender = true;
+    private double balance;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -90,6 +91,7 @@ public class TradeFragment extends Fragment {
         }
         firebaseFirestore = FirebaseFirestore.getInstance();
         transactionModelArrayList = new ArrayList<>();
+
         loadData();
     }
 
@@ -103,12 +105,16 @@ public class TradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trade_fragment, container, false);
-        balanceTextView = view.findViewById(R.id.txtBalance);
         transactionRecyclerView = view.findViewById(R.id.transactions_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         transactionRecyclerView.setLayoutManager(layoutManager);
         transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
         transactionRecyclerView.setAdapter(transactionAdapter);
+
+        balanceTextView = view.findViewById(R.id.txtBalance);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        balanceTextView.setText(decimalFormat.format(balance));
+
         return view;
     }
     @Override
@@ -120,27 +126,32 @@ public class TradeFragment extends Fragment {
         transactionsView.setLayoutManager(layoutManager);
         transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
         transactionsView.setAdapter(transactionAdapter);
+
+        balanceTextView = view.findViewById(R.id.txtBalance);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        balanceTextView.setText(decimalFormat.format(balance));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!isFirstRender) {
-            // Reload data to update balanceTextView
-            resetUI();
-            loadData();
-        }
-        isFirstRender = false;
+//        if (!isFirstRender) {
+//            // Reload data to update balanceTextView
+//            resetUI();
+//            loadData();
+//        }
+//        isFirstRender = false;
     }
 
     private void loadData() {
+        transactionModelArrayList.clear();
 //       firebaseFirestore.collection("expense").document();
         CollectionReference expenseCollectionRef = firebaseFirestore.collection("expense");
         expenseCollectionRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        double balance = 0;
+//                        double balance = 0;
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Timestamp createdAtdata = document.getTimestamp("created_at");
@@ -157,26 +168,32 @@ public class TradeFragment extends Fragment {
                                         document.getString("wallet_id"),
                                         sdf.format(createdDate)
                                 );
-                                double doubleAmount = document.getDouble("amount");
-                                double amount = (double) doubleAmount;
-
-                                if ("category/0sZQzPZx64wLdM4aauqZ".equals(document.getString("category_id"))) {
-                                    balance = balance - amount;
-                                } else {
-                                    balance = balance + amount;
-                                }
                                 transactionModelArrayList.add(model);
 //                                Log.d(TAG, document.getId() + " => " + document.getData());
                             }
-                            DecimalFormat decimalFormat = new DecimalFormat("#,###");
-                            balanceTextView.setText(decimalFormat.format(balance));
-//                            Log.d(TAG, "Add data to transactionModelArrayList succeed!");
+                            balance = getBalance();
+                            if (balanceTextView != null) {
+                                DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                                balanceTextView.setText(decimalFormat.format(balance));
+                            }
                             transactionAdapter.notifyDataSetChanged();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
+    }
+
+    private double getBalance() {
+        double balance = 0;
+        for (TransactionModel transaction: transactionModelArrayList) {
+            if ("category/0sZQzPZx64wLdM4aauqZ".equals(transaction.getId())) {
+                balance = balance - transaction.getAmount();
+            } else {
+                balance = balance + transaction.getAmount();
+            }
+        }
+        return balance;
     }
 
     private void resetUI() {
