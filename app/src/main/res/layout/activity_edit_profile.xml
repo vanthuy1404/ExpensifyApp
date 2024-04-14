@@ -45,15 +45,16 @@
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/editEmail"
+                android:id="@+id/textEmail"
                 android:background="@drawable/custom_edittext"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
+                android:hint="email"
+                android:gravity="center_vertical"
+                android:text="your_email@gmail.com"
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
