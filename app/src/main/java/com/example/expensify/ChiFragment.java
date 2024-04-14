@@ -48,7 +48,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ChiFragment extends Fragment {
-
+    public static String userid = "user/oV7QOeQQAAY703JebyXk";
     private int currentMonth;
     private FirebaseFirestore db;
     private int tong_chi_currentMonth;
@@ -147,47 +147,52 @@ public class ChiFragment extends Fragment {
                         calendar.setTimeInMillis(createdAtTimestamp.getSeconds() * 1000);
 
                         int month = calendar.get(Calendar.MONTH) + 1;
+                        String user_id = document.getString("user_id");
                         String categoryRef = document.getString("category_id");
                         int amount = document.getLong("amount").intValue();
                         String categoryDetail = document.getString("category_detail");
-                        if (month == currentMonth) {
-                            if (categoryRef != null && categoryRef.equals("category/0sZQzPZx64wLdM4aauqZ")) {
-                                tong_chi_currentMonth += amount;
-                                if (anuongList.contains(categoryDetail)) {
-                                    an_uong += amount;
-                                } else if (hoadontienichList.contains(categoryDetail)) {
-                                    hoa_don_tien_ich += amount;
-                                } else if (muaHangList.contains(categoryDetail)) {
-                                    mua_sam += amount;
-                                } else if (giaDinhList.contains(categoryDetail)) {
-                                    gia_dinh += amount;
-                                } else if (diChuyenList.contains(categoryDetail)) {
-                                    di_chuyen += amount;
-                                } else if (sucKhoeList.contains(categoryDetail)) {
-                                    suc_khoe += amount;
-                                } else if (giaoDucList.contains(categoryDetail)) {
-                                    giao_duc += amount;
-                                } else if (quaTangVaQuyenGopList.contains(categoryDetail)) {
-                                    qua_tang_quyen_gop += amount;
-                                } else if (giaiTriList.contains(categoryDetail)) {
-                                    giai_tri += amount;
-                                } else if (baoHiemList.contains(categoryDetail)) {
-                                    bao_hiem += amount;
-                                } else if (dauTuList.contains(categoryDetail)) {
-                                    dau_tu += amount;
-                                } else if (cacKhoanChiKhacList.contains(categoryDetail)) {
-                                    cac_chi_phi_khac += amount;
+
+                        if (user_id.equals(userid)) {
+                            if (month == currentMonth) {
+                                if (categoryRef != null && categoryRef.equals("category/0sZQzPZx64wLdM4aauqZ")) {
+                                    tong_chi_currentMonth += amount;
+                                    if (anuongList.contains(categoryDetail)) {
+                                        an_uong += amount;
+                                    } else if (hoadontienichList.contains(categoryDetail)) {
+                                        hoa_don_tien_ich += amount;
+                                    } else if (muaHangList.contains(categoryDetail)) {
+                                        mua_sam += amount;
+                                    } else if (giaDinhList.contains(categoryDetail)) {
+                                        gia_dinh += amount;
+                                    } else if (diChuyenList.contains(categoryDetail)) {
+                                        di_chuyen += amount;
+                                    } else if (sucKhoeList.contains(categoryDetail)) {
+                                        suc_khoe += amount;
+                                    } else if (giaoDucList.contains(categoryDetail)) {
+                                        giao_duc += amount;
+                                    } else if (quaTangVaQuyenGopList.contains(categoryDetail)) {
+                                        qua_tang_quyen_gop += amount;
+                                    } else if (giaiTriList.contains(categoryDetail)) {
+                                        giai_tri += amount;
+                                    } else if (baoHiemList.contains(categoryDetail)) {
+                                        bao_hiem += amount;
+                                    } else if (dauTuList.contains(categoryDetail)) {
+                                        dau_tu += amount;
+                                    } else if (cacKhoanChiKhacList.contains(categoryDetail)) {
+                                        cac_chi_phi_khac += amount;
+                                    }
+                                }
+                            }
+                            if (month == (currentMonth - 1)) {
+                                if (categoryRef != null && categoryRef.equals("category/0sZQzPZx64wLdM4aauqZ")) {
+                                    tong_chi_lastMonth += amount;
                                 }
                             }
                         }
-                        if (month == (currentMonth - 1)) {
-                            if (categoryRef != null && categoryRef.equals("category/0sZQzPZx64wLdM4aauqZ")) {
-                                tong_chi_lastMonth += amount;
-                            }
-                        }
-                        updateUI(rootView);
-                        isDataLoaded = true;
                     }
+                    // Di chuyển lệnh cập nhật UI và đánh dấu dữ liệu đã tải vào ngoài vòng lặp
+                    updateUI(rootView);
+                    isDataLoaded = true;
                 } else {
                     Log.d("debug", "Lỗi khi lấy dữ liệu: ", task.getException());
                 }
