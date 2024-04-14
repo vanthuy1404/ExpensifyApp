@@ -43,6 +43,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -120,6 +121,20 @@ public class ChiFragment extends Fragment {
         bao_hiem = 0;
         dau_tu = 0;
         cac_chi_phi_khac = 0;
+        List<String> anuongList = Arrays.asList("Ăn uống", "Food & Beverage", "Nourriture et Boissons");
+        List<String> hoadontienichList = Arrays.asList("Hóa đơn & Tiện ích","Factures et Services Publics", "Bills & Utilities");
+        List<String> muaHangList = Arrays.asList("Mua sắm","Achats", "Shopping");
+        List<String> giaDinhList = Arrays.asList("Gia đình","Famille", "Family");
+        List<String> diChuyenList = Arrays.asList("Di chuyển","Transport", "Transportation");
+        List<String> sucKhoeList = Arrays.asList("Sức khỏe","Santé", "Health");
+        List<String> giaoDucList = Arrays.asList("Giáo dục","Éducation", "Education");
+        List<String> quaTangVaQuyenGopList = Arrays.asList("Quà tặng & Quyên góp","Cadeaux et Dons", "Gifts & Donations");
+        List<String> giaiTriList = Arrays.asList("Giải trí","Divertissement", "Entertainment");
+        List<String> baoHiemList = Arrays.asList("Bảo hiểm","Assurance", "Insurance");
+        List<String> dauTuList = Arrays.asList("Đầu tư","Investissements", "Investments");
+        List<String> cacKhoanChiKhacList = Arrays.asList("Các chi phí khác","Autres Dépenses", "Other Expenses");
+
+
 
         CollectionReference expensesRef = db.collection("expense");
         db.collection("expense").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -138,29 +153,29 @@ public class ChiFragment extends Fragment {
                         if (month == currentMonth) {
                             if (categoryRef != null && categoryRef.equals("category/0sZQzPZx64wLdM4aauqZ")) {
                                 tong_chi_currentMonth += amount;
-                                if (categoryDetail.equals("Ăn uống")) {
+                                if (anuongList.contains(categoryDetail)) {
                                     an_uong += amount;
-                                } else if (categoryDetail.equals("Hóa đơn & Tiện ích")) {
+                                } else if (hoadontienichList.contains(categoryDetail)) {
                                     hoa_don_tien_ich += amount;
-                                } else if (categoryDetail.equals("Mua sắm")) {
+                                } else if (muaHangList.contains(categoryDetail)) {
                                     mua_sam += amount;
-                                } else if (categoryDetail.equals("Gia đình")) {
+                                } else if (giaDinhList.contains(categoryDetail)) {
                                     gia_dinh += amount;
-                                } else if (categoryDetail.equals("Di chuyển")) {
+                                } else if (diChuyenList.contains(categoryDetail)) {
                                     di_chuyen += amount;
-                                } else if (categoryDetail.equals("Sức khỏe")) {
+                                } else if (sucKhoeList.contains(categoryDetail)) {
                                     suc_khoe += amount;
-                                } else if (categoryDetail.equals("Giáo dục")) {
+                                } else if (giaoDucList.contains(categoryDetail)) {
                                     giao_duc += amount;
-                                } else if (categoryDetail.equals("Quà tặng & Quyên góp")) {
+                                } else if (quaTangVaQuyenGopList.contains(categoryDetail)) {
                                     qua_tang_quyen_gop += amount;
-                                } else if (categoryDetail.equals("Giải trí")) {
+                                } else if (giaiTriList.contains(categoryDetail)) {
                                     giai_tri += amount;
-                                } else if (categoryDetail.equals("Bảo hiểm")) {
+                                } else if (baoHiemList.contains(categoryDetail)) {
                                     bao_hiem += amount;
-                                } else if (categoryDetail.equals("Đầu tư")) {
+                                } else if (dauTuList.contains(categoryDetail)) {
                                     dau_tu += amount;
-                                } else if (categoryDetail.equals("Các chi phí khác")) {
+                                } else if (cacKhoanChiKhacList.contains(categoryDetail)) {
                                     cac_chi_phi_khac += amount;
                                 }
                             }

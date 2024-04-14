@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -104,6 +105,13 @@ public class ThuFragment extends Fragment {
         tien_chuyen_den = 0;
         thu_lai = 0;
         cac_khoan_thu_khac = 0;
+
+        List<String> salaryList = Arrays.asList("Lương","Salary", "Salaire");
+        List<String> otherIncomeList = Arrays.asList("Thu nhập khác","Other Income", "Autres Revenus");
+        List<String> interestList = Arrays.asList("Tiền chuyển đến","Interest", "Intérêts");
+        List<String> moneyTransfersList = Arrays.asList("Thu lãi","Money Transfers", "Transferts d'Argent");
+        List<String> othersList = Arrays.asList("Các khoản thu khác","Others", "Autres");
+
         Calendar calendar = Calendar.getInstance();
         currentMonth = calendar.get(Calendar.MONTH) + 1;
 
@@ -124,15 +132,15 @@ public class ThuFragment extends Fragment {
                         if (month == currentMonth) {
                             if (categoryRef != null && categoryRef.equals("category/mQWS7VpkMR6BPlhknobM")) {
                                 tong_thu_currentMonth += amount;
-                                if (categoryDetail.equals("Lương")) {
+                                if (salaryList.contains(categoryDetail)) {
                                     luong += amount;
-                                } else if (categoryDetail.equals("Thu nhập khác")) {
+                                } else if (otherIncomeList.contains(categoryDetail)) {
                                     thu_nhap_khac += amount;
-                                } else if (categoryDetail.equals("Tiền chuyển đến")) {
+                                } else if (moneyTransfersList.contains(categoryDetail)) {
                                     tien_chuyen_den += amount;
-                                } else if (categoryDetail.equals("Thu lãi")) {
+                                } else if (interestList.contains(categoryDetail)) {
                                     thu_lai += amount;
-                                } else if (categoryDetail.equals("Các khoản thu khác")) {
+                                } else if (othersList.contains(categoryDetail)) {
                                     cac_khoan_thu_khac += amount;
                                 }
                             }
