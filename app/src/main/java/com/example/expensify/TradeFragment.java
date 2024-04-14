@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -52,8 +53,8 @@ public class TradeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FirebaseAuth auth;
     private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuthException firebaseAuth;
     private ArrayList<TransactionModel> transactionModelArrayList;
     private TransactionAdapter transactionAdapter;
     private RecyclerView transactionRecyclerView;
@@ -90,6 +91,7 @@ public class TradeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         firebaseFirestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
         transactionModelArrayList = new ArrayList<>();
 
         loadData();
@@ -146,8 +148,12 @@ public class TradeFragment extends Fragment {
     private void loadData() {
         transactionModelArrayList.clear();
 //       firebaseFirestore.collection("expense").document();
+        String userId = auth.getCurrentUser().getUid();
+        Log.d(TAG, "User ID: " + userId);
+
         CollectionReference expenseCollectionRef = firebaseFirestore.collection("expense");
-        expenseCollectionRef.get()
+        Query query = expenseCollectionRef.whereEqualTo("user_id", "user/" + userId);
+        query.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
