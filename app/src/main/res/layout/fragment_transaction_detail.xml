@@ -20,7 +20,7 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quay lại"
+            android:text="@string/back"
             android:background="@android:color/transparent"
             android:textColor="@color/black" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sửa"
+            android:text="@string/edit"
             android:background="@android:color/transparent"
             android:textColor="@color/black"
             />
@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
-                android:text="Thời gian: " />
+                android:text="@string/dateTime" />
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
-                android:text="Nhóm: " />
+                android:text="@string/detailCategory" />
             <TextView
                 android:id="@+id/txtCategory"
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_height="match_parent"
                 android:textStyle="bold"
 
-                android:text="Ghi chú: " />
+                android:text="@string/content" />
             <TextView
                 android:id="@+id/txtNote"
                 android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
-                android:text="Số tiền: " />
+                android:text="@string/amount" />
             <TextView
                 android:id="@+id/txtAmount"
                 android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/red"
-        android:text="Xóa giao dịch"
+        android:text="@string/deleteTransaction"
         android:textColor="@color/white"
         android:textSize="16dp" />
 </LinearLayout>
