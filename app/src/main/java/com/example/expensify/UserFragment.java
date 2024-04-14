@@ -66,7 +66,12 @@ public class UserFragment extends Fragment {
         return fragment;
     }
 
+<<<<<<< Updated upstream
     public String username;
+=======
+    public static String username;
+    public String note;
+>>>>>>> Stashed changes
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,8 +82,29 @@ public class UserFragment extends Fragment {
         }
 
 
+<<<<<<< Updated upstream
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document("oV7QOeQQAAY703JebyXk");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+=======
+        DocumentReference docRefUser = FirebaseFirestore.getInstance().collection("user").document("oV7QOeQQAAY703JebyXk");
+        docRefUser.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (doc.exists()) {
+                        username = doc.getId();
+                        Log.d("Document", "Username: " + username);
+                    } else {
+                        Log.d("Document", "No data");
+                    }
+                }
+            }
+        });
+
+        DocumentReference docRefExpense = FirebaseFirestore.getInstance().collection("expense").document("AnNmVbE2TuIhlznpCmai");
+        docRefExpense.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+>>>>>>> Stashed changes
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
