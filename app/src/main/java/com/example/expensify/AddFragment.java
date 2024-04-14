@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -114,7 +115,6 @@ public class AddFragment extends Fragment {
             "Autres"
     };
 
-
     public static final String[] languages = { "Vietnamese", "English", "French" };
 
     private ArrayAdapter<String> adapter;
@@ -156,7 +156,6 @@ public class AddFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        auth = FirebaseAuth.getInstance();
     }
 
     private void ResetInputField() {
@@ -217,6 +216,7 @@ public class AddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         Button add = getView().findViewById(R.id.buttonAddExpense);
         add.setOnClickListener((e) -> {
             try {

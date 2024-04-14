@@ -3,6 +3,31 @@
     <string name="app_name">Expensify</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="totalIncome_currentMonth">Total income this month</string>
+    <string name="totalOutcome_currentMonth">Total expenses this month</string>
+    <string name="totalIncome_lastMonth">Total income last month</string>
+    <string name="totalOutcome_lastMonth">Total expenses last month</string>
+    <string name="salary">Salary</string>
+    <string name="otherIncome">Other income</string>
+    <string name="moneyTransferred">Money transferred</string>
+    <string name="interest">Interest</string>
+    <string name="otherRevenues">Other revenues</string>
+    <string name="update">Update</string>
+    <string name="foodAndDrink">Food and Drink</string>
+    <string name="billAndUtilities">Bills and Utilities</string>
+    <string name="shopping">Shopping</string>
+    <string name="family">Family</string>
+    <string name="transportations">Transportations</string>
+    <string name="health">Health</string>
+    <string name="education">Education</string>
+    <string name="giftAndDonation">Gifts and Donations</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="insurance">Insurance</string>
+    <string name="investment">Investment</string>
+    <string name="otherExpenses">Other expenses</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="accept">Confirm</string>
     <string name="ngay">Date</string>
     <string name="content">Content</string>
@@ -31,4 +56,5 @@
     <string name="reset">Reset</string>
     <string name="logout">Log Out</string>
 
+>>>>>>> master
 </resources>

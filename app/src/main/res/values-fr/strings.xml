@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Expensify</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+    <string name="totalIncome_currentMonth">Revenu total ce mois-ci</string>
+    <string name="totalOutcome_currentMonth">Dépenses totales ce mois-ci</string>
+    <string name="totalIncome_lastMonth">Revenu total le mois dernier</string>
+    <string name="totalOutcome_lastMonth">Dépenses totales le mois dernier</string>
+    <string name="salary">Salaire</string>
+    <string name="otherIncome">Autres revenus</string>
+    <string name="moneyTransferred">Argent transféré</string>
+    <string name="interest">Intérêt</string>
+    <string name="otherRevenues">Autres revenus</string>
+    <string name="update">Mettre à jour</string>
+    <string name="foodAndDrink">Nourriture et Boissons</string>
+    <string name="billAndUtilities">Factures et Services</string>
+    <string name="shopping">Shopping</string>
+    <string name="family">Famille</string>
+    <string name="transportations">Transports</string>
+    <string name="health">Santé</string>
+    <string name="education">Éducation</string>
+    <string name="giftAndDonation">Cadeaux et Dons</string>
+    <string name="entertainment">Divertissement</string>
+    <string name="insurance">Assurance</string>
+    <string name="investment">Investissement</string>
+    <string name="otherExpenses">Autres dépenses</string>
     <string name="accept">Confirmer</string>
     <string name="ngay">Dattes</string>
     <string name="content">Contenu</string>

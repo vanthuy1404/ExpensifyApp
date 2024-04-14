@@ -1,7 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Expensify</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="totalIncome_currentMonth">Tổng thu tháng này</string>
+    <string name="totalOutcome_currentMonth">Tổng chi tháng này</string>
+    <string name="totalIncome_lastMonth">Tổng thu tháng trước</string>
+    <string name="totalOutcome_lastMonth">Tổng chi tháng trước</string>
+    <string name="salary">Lương</string>
+    <string name="otherIncome">Thu nhập khác</string>
+    <string name="moneyTransferred">Tiền chuyển đến</string>
+    <string name="interest">Thu lãi</string>
+    <string name="otherRevenues">Các khoản thu khác</string>
+    <string name="update">Cập nhật</string>
+    <string name="foodAndDrink">Ăn uống</string>
+    <string name="billAndUtilities">Hóa đơn tiện ích</string>
+    <string name="shopping">Mua sắm</string>
+    <string name="family">Gia đình</string>
+    <string name="transportations">Di chuyển</string>
+    <string name="health">Sức khỏe</string>
+    <string name="education">Giáo dục</string>
+    <string name="giftAndDonation">Quà tặng quyên góp</string>
+    <string name="entertainment">Giải trí</string>
+    <string name="insurance">Bảo hiểm</string>
+    <string name="investment">Đầu tư</string>
+    <string name="otherExpenses">Các chi phí khác</string>
     <string name="accept">Xác nhận</string>
     <string name="ngay">Ngày</string>
     <string name="content">Nội dung</string>
