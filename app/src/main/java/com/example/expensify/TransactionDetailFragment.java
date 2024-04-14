@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -95,13 +96,16 @@ public class TransactionDetailFragment extends Fragment {
             TextView txtCategory = view.findViewById(R.id.txtCategory);
             TextView txtNote = view.findViewById(R.id.txtNote);
             TextView txtAmount = view.findViewById(R.id.txtAmount);
+            TextView txtDate = view.findViewById(R.id.txtDate);
 
             if (transactionModel != null) {
                 String categoryDetail = transactionModel.getCategoryDetail();
                 String note = transactionModel.getNote();
                 double amount = transactionModel.getAmount();
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                String date = transactionModel.getCreatedAt();
 
+                txtDate.setText(date);
                 txtCategory.setText(categoryDetail);
                 txtNote.setText(note);
                 txtAmount.setText(decimalFormat.format(amount));
@@ -155,6 +159,24 @@ public class TransactionDetailFragment extends Fragment {
                         mDialog.show();
                     }
                 });
+
+                // Handle button Edit
+                Button btnEdit = view.findViewById(R.id.btnEdit);
+
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditFragment fragment = new EditFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("transaction", transactionModel);
+                        fragment.setArguments(bundle);
+                        FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.Frame_layout, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
             }
         }
 
@@ -168,19 +190,6 @@ public class TransactionDetailFragment extends Fragment {
                 fragmentManager.popBackStack();
             }
         });
-
-        // Handle button Edit
-        Button btnEdit = view.findViewById(R.id.btnEdit);
-
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
-
         return view;
     }
 }

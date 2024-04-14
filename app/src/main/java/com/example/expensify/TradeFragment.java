@@ -4,6 +4,7 @@ import static android.view.View.inflate;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -165,11 +166,11 @@ public class TradeFragment extends Fragment {
                                     balance = balance + amount;
                                 }
                                 transactionModelArrayList.add(model);
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             DecimalFormat decimalFormat = new DecimalFormat("#,###");
                             balanceTextView.setText(decimalFormat.format(balance));
-                            Log.d(TAG, "Add data to transactionModelArrayList succeed!");
+//                            Log.d(TAG, "Add data to transactionModelArrayList succeed!");
                             transactionAdapter.notifyDataSetChanged();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
