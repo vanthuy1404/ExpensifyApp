@@ -192,6 +192,7 @@ public class AddFragment extends Fragment {
         expense.put("note", expenseContent);
         expense.put("category_detail", expenseSelectionCategory);
         expense.put("category_id", categoryID);
+
         expense.put("user_id", auth.getCurrentUser());
 
         AlertDialog ad = new AlertDialog.Builder(getActivity())
