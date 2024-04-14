@@ -2,8 +2,10 @@ package com.example.expensify;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 
@@ -26,16 +28,22 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.DateTime;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,13 +69,14 @@ public class EditFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
     ArrayList<CategoryModel> categories = new ArrayList<>();
     private String categoryID;
+    private String expenseID;
     String[] arraySpinnerExpense = new String[]{
             "Ăn uống", "Hóa đơn & Tiện ích", "Mua sắm", "Gia đình", "Di chuyển", "Sức khỏe", "Giáo dục", "Quà tặng & Quyên góp", "Giải trí", "Bảo hiểm", "Đầu tư", "Các chi phí khác"
     };
     String[] arraySpinnerIncome = new String[]{
             "Lương", "Các khoản thu khác", "Lãi", "Tiền chuyển đến", "Thu nhập khác"
     };
-
+    int detailId;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -95,13 +104,6 @@ public class EditFragment extends Fragment {
         }
         firebaseFirestore = FirebaseFirestore.getInstance();
         loadCategory();
-//        for (CategoryModel category: categories) {
-//            if (category.getId() == "0sZQzPZx64wLdM4aauqZ") {
-//                for (Object categoryDetail: category.getDetail()) {
-//                    arraySpinnerExpense.add(categoryDetail.name)
-//                }
-//            }
-//        }
     }
 
     @Override
@@ -116,6 +118,7 @@ public class EditFragment extends Fragment {
         EditText edtTxtAmount = view.findViewById(R.id.edtTxtAmount);
         Spinner spnCategory = view.findViewById(R.id.spinnerCategory);
         Spinner spnDetail = view.findViewById(R.id.spinnerDetail);
+        Button btnSave = view.findViewById(R.id.btnSave);
 
         // Retrieve the TransactionModel object from the arguments Bundle
         Bundle bundle = getArguments();
@@ -127,7 +130,8 @@ public class EditFragment extends Fragment {
                 String note = transactionModel.getNote();
                 double amount = transactionModel.getAmount();
                 String date = transactionModel.getCreatedAt();
-                DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                DecimalFormat decimalFormat = new DecimalFormat("####");
+                expenseID = transactionModel.getId();
 
                 edtTxtDate.setText(date);
                 edtTxtNote.setText(note);
@@ -191,7 +195,28 @@ public class EditFragment extends Fragment {
 
             }
         });
-//
+
+        // Handle button Save
+        btnSave.setOnClickListener(v -> {
+            String newNote = edtTxtNote.getText().toString();
+            String newDetail = spnDetail.getSelectedItem().toString();
+            Number newAmount = null;
+            try {
+                newAmount = NumberFormat.getInstance().parse(edtTxtAmount.getText().toString());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            Map<String, Object> newExpense = new HashMap<>();
+            newExpense.put("created_at", myCalendar.getTime());
+            newExpense.put("amount", newAmount);
+            newExpense.put("note", newNote);
+            newExpense.put("category_detail", newDetail);
+            newExpense.put("category_id", categoryID);
+
+            editExpenseDocument(expenseID, newExpense);
+        });
+
         return view;
     }
 
@@ -222,5 +247,50 @@ public class EditFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    public void editExpenseDocument(String expenseId, Map<String, Object> newExpense) {
+        DocumentReference expenseRef = firebaseFirestore.collection("expense").document(expenseId);
+
+        expenseRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Perform the update
+                        expenseRef.update(newExpense)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(Task<Void> updateTask) {
+                                        if (updateTask.isSuccessful()) {
+                                            // Update successful
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                            builder.setTitle("Cập nhật thành công")
+                                                    .setMessage("Giao dịch của bạn đã được cập nhật!")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+                                            AlertDialog dialog = builder.create();
+                                            dialog.show();
+                                            Log.d(TAG, "Update successfully");
+                                        } else {
+                                            // Update failed
+                                            Log.d(TAG, "Update unsuccessfully");
+                                        }
+                                    }
+                                });
+                    } else {
+                        // Document doesn't exist
+                        // Handle error
+                    }
+                } else {
+                    // Error getting document
+                    // Handle error
+                }
+            }
+        });
     }
 }
