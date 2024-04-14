@@ -156,6 +156,7 @@ public class AddFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        auth = FirebaseAuth.getInstance();
     }
 
     private void ResetInputField() {
@@ -181,6 +182,7 @@ public class AddFragment extends Fragment {
         String expenseContent = editTextExpenseContent.getText().toString();
         String dateString = editTextDate.getText().toString();
         String expenseSelectionCategory = spinnerSelectionCategory.getSelectedItem().toString();
+        String userId = auth.getCurrentUser().getUid();
 
         Map<String, Object> expense = new HashMap<>();
 
