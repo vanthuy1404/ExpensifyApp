@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -114,7 +115,10 @@ public class UserFragment extends Fragment {
         profileUsername = view.findViewById(R.id.profileUsername);
         profileTelephone = view.findViewById(R.id.profileTelephone);
 
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document("oV7QOeQQAAY703JebyXk");
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = currentUser.getUid();
+
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

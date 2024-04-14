@@ -94,6 +94,17 @@
                 android:backgroundTint="@color/lavender"
                 app:cornerRadius = "20dp"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Return"
+                android:id="@+id/returnButton"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/lavender"
+                app:cornerRadius = "20dp"/>
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
