@@ -1,7 +1,5 @@
 package com.example.expensify;
 
-import static com.example.expensify.ChiFragment.userid;
-
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,6 +29,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,6 +45,9 @@ import java.util.List;
 public class ThuFragment extends Fragment {
     private int currentMonth;
     private FirebaseFirestore db;
+
+    private String userid;
+    private FirebaseAuth auth;
     private int tong_thu_currentMonth;
     private int tong_thu_lastMonth;
     private int luong;
@@ -64,10 +66,10 @@ public class ThuFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_thu, container, false);;
         // Nạp giao diện phù hợp với hướng màn hình
-
-
         // Gán sự kiện cho nút cập nhật
         Button updateButton = rootView.findViewById(R.id.updateButton);
+        auth = FirebaseAuth.getInstance();
+        userid = auth.getCurrentUser().getUid();
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +133,7 @@ public class ThuFragment extends Fragment {
                         String categoryRef = document.getString("category_id");
                         int amount = document.getLong("amount").intValue();
                         String categoryDetail = document.getString("category_detail");
-                        if (user_id.equals(userid)){
+                        if (user_id.equals(new String("user/" + userid))) {
                             if (month == currentMonth) {
                                 if (categoryRef != null && categoryRef.equals("category/mQWS7VpkMR6BPlhknobM")) {
                                     tong_thu_currentMonth += amount;

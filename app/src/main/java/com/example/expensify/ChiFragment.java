@@ -36,7 +36,9 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -48,7 +50,10 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ChiFragment extends Fragment {
-    public static String userid = "user/oV7QOeQQAAY703JebyXk";
+
+    private FirebaseAuth auth;
+
+    public String userid;
     private int currentMonth;
     private FirebaseFirestore db;
     private int tong_chi_currentMonth;
@@ -68,7 +73,6 @@ public class ChiFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -76,6 +80,8 @@ public class ChiFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chi, container, false);
         Button updateButton = rootView.findViewById(R.id.updateButton);
+        auth = FirebaseAuth.getInstance();
+        userid = auth.getCurrentUser().getUid();
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +158,7 @@ public class ChiFragment extends Fragment {
                         int amount = document.getLong("amount").intValue();
                         String categoryDetail = document.getString("category_detail");
 
-                        if (user_id.equals(userid)) {
+                        if (user_id.equals(new String("user/" + userid))) {
                             if (month == currentMonth) {
                                 if (categoryRef != null && categoryRef.equals("category/0sZQzPZx64wLdM4aauqZ")) {
                                     tong_chi_currentMonth += amount;
