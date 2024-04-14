@@ -3,6 +3,7 @@ package com.example.expensify;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.icu.util.Calendar;
@@ -11,6 +12,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.DisplayMetrics;
@@ -223,6 +227,19 @@ public class AddFragment extends Fragment {
         Button add = getView().findViewById(R.id.buttonAddExpense);
         add.setOnClickListener((e) -> {
             try {
+                if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default")
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Expensify")
+                            .setContentText("Thêm thành công")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setSound(null);
+                    notificationManager.notify(1, builder.build());
+                } else {
+                    // Nếu quyền chưa được cấp, yêu cầu quyền
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
+                }
                 getDataFromUser();
             } catch (ParseException ex) {
                 throw new RuntimeException(ex);

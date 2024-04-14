@@ -1,10 +1,14 @@
 package com.example.expensify;
 
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -73,7 +77,20 @@ public class ThuFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("update", "Cập nhật lại dữ liệu");
+                if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default")
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Expensify")
+                            .setContentText("Cập nhật dữ liệu thành công")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setSound(null);
+                    notificationManager.notify(1, builder.build());
+                } else {
+                    // Nếu quyền chưa được cấp, yêu cầu quyền
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
+                }
+
                 reloadDataAndView(rootView);
             }
         });
