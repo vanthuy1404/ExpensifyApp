@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
         userFragment = new UserFragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
-        loadFragment(addFragment);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
+        loadFragment(tradeFragment);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
