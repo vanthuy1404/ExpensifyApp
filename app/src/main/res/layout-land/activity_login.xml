@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         tools:context=".LoginActivity">
 
         <androidx.cardview.widget.CardView
@@ -42,7 +42,7 @@
                     android:id="@+id/login_email"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/custom_edittext"
                     android:drawableLeft="@drawable/baseline_person_24"
                     android:drawablePadding="8dp"
@@ -55,7 +55,7 @@
                     android:id="@+id/login_password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/custom_edittext"
                     android:drawableLeft="@drawable/baseline_lock_24"
                     android:drawablePadding="8dp"
@@ -68,10 +68,10 @@
                     android:id="@+id/login_button"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="15dp"
                     android:backgroundTint="@color/lavender"
                     android:text="Login"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     app:cornerRadius="20dp" />
 
                 <TextView
