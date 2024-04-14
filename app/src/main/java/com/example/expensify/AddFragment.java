@@ -189,6 +189,7 @@ public class AddFragment extends Fragment {
         expense.put("category_detail", expenseSelectionCategory);
         expense.put("category_id", categoryID);
 
+
         AlertDialog ad = new AlertDialog.Builder(getActivity())
                 .create();
         ad.setCancelable(false);
