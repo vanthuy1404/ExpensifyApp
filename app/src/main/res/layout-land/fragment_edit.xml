@@ -44,7 +44,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Thời gian: " />
+                    android:text="@string/dateTime" />
                 <EditText
                     android:id="@+id/edtTxtDate"
                     android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
-                    android:text="Ghi chú: " />
+                    android:text="@string/content" />
                 <EditText
                     android:id="@+id/edtTxtNote"
                     android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Số tiền: " />
+                    android:text="@string/amount" />
                 <EditText
                     android:id="@+id/edtTxtAmount"
                     android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/green"
-            android:text="Lưu"
+            android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16dp" />
     </LinearLayout>

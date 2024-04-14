@@ -18,4 +18,17 @@
     <string name="selectDate">Choisir l\'heure</string>
     <string name="save">Sauvegarder</string>
     <string name="cancel">Annuler</string>
+    <string name="fullname">Nom et prénom</string>
+    <string name="telephone">Téléphone</string>
+    <string name="editProfile">Editer le profil</string>
+    <string name="login">Se connecter</string>
+    <string name="forgetPassword">Mot de passe oublié?</string>
+    <string name="recommendRegister">Mot de passe oublié? S\'inscrire</string>
+    <string name="signup">S\'inscrire</string>
+    <string name="confirmPassword">Confirmer mot passe</string>
+    <string name="recommendLogin">Vous aviez déjà un compte ? Se connecter</string>
+    <string name="enterEmail">Entrez votre adresse email:</string>
+    <string name="reset">réinitialiser</string>
+    <string name="logout">Se déconnecter</string>
+
 </resources>

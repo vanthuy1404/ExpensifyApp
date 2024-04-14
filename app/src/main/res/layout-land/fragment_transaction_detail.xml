@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Thời gian: " />
+                    android:text="@string/dateTime" />
                 <TextView
                     android:id="@+id/txtDate"
                     android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Nhóm: " />
+                    android:text="@string/detailCategory" />
                 <TextView
                     android:id="@+id/txtCategory"
                     android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
 
-                    android:text="Ghi chú: " />
+                    android:text="@string/content" />
                 <TextView
                     android:id="@+id/txtNote"
                     android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:gravity="center_vertical"
-                    android:text="Số tiền: " />
+                    android:text="@string/amount" />
                 <TextView
                     android:id="@+id/txtAmount"
                     android:layout_width="wrap_content"
