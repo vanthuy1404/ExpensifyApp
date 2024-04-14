@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
@@ -113,6 +115,8 @@ public class AddFragment extends Fragment {
             "Autres"
     };
 
+    private FirebaseAuth auth;
+
 
     public static final String[] languages = { "Vietnamese", "English", "French" };
 
@@ -188,7 +192,7 @@ public class AddFragment extends Fragment {
         expense.put("note", expenseContent);
         expense.put("category_detail", expenseSelectionCategory);
         expense.put("category_id", categoryID);
-        expense.put("user_id", SignUpActivity.user_id);
+        expense.put("user_id", auth.getCurrentUser());
 
         AlertDialog ad = new AlertDialog.Builder(getActivity())
                 .create();
@@ -214,6 +218,7 @@ public class AddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         Button add = getView().findViewById(R.id.buttonAddExpense);
         add.setOnClickListener((e) -> {
             try {
