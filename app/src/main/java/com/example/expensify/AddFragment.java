@@ -181,7 +181,6 @@ public class AddFragment extends Fragment {
         String expenseContent = editTextExpenseContent.getText().toString();
         String dateString = editTextDate.getText().toString();
         String expenseSelectionCategory = spinnerSelectionCategory.getSelectedItem().toString();
-        String userId = auth.getCurrentUser().getUid();
 
         Map<String, Object> expense = new HashMap<>();
 
