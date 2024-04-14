@@ -1,5 +1,7 @@
 package com.example.expensify;
 
+import static com.example.expensify.ChiFragment.userid;
+
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -124,35 +126,38 @@ public class ThuFragment extends Fragment {
                         Timestamp createdAtTimestamp = document.getTimestamp("created_at");
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(createdAtTimestamp.getSeconds() * 1000);
-
+                        String user_id = document.getString("user_id");
                         int month = calendar.get(Calendar.MONTH) + 1;
                         String categoryRef = document.getString("category_id");
                         int amount = document.getLong("amount").intValue();
                         String categoryDetail = document.getString("category_detail");
-                        if (month == currentMonth) {
-                            if (categoryRef != null && categoryRef.equals("category/mQWS7VpkMR6BPlhknobM")) {
-                                tong_thu_currentMonth += amount;
-                                if (salaryList.contains(categoryDetail)) {
-                                    luong += amount;
-                                } else if (otherIncomeList.contains(categoryDetail)) {
-                                    thu_nhap_khac += amount;
-                                } else if (moneyTransfersList.contains(categoryDetail)) {
-                                    tien_chuyen_den += amount;
-                                } else if (interestList.contains(categoryDetail)) {
-                                    thu_lai += amount;
-                                } else if (othersList.contains(categoryDetail)) {
-                                    cac_khoan_thu_khac += amount;
+                        if (user_id.equals(userid)){
+                            if (month == currentMonth) {
+                                if (categoryRef != null && categoryRef.equals("category/mQWS7VpkMR6BPlhknobM")) {
+                                    tong_thu_currentMonth += amount;
+                                    if (salaryList.contains(categoryDetail)) {
+                                        luong += amount;
+                                    } else if (otherIncomeList.contains(categoryDetail)) {
+                                        thu_nhap_khac += amount;
+                                    } else if (moneyTransfersList.contains(categoryDetail)) {
+                                        tien_chuyen_den += amount;
+                                    } else if (interestList.contains(categoryDetail)) {
+                                        thu_lai += amount;
+                                    } else if (othersList.contains(categoryDetail)) {
+                                        cac_khoan_thu_khac += amount;
+                                    }
                                 }
                             }
-                        }
-                        if (month == (currentMonth - 1)) {
-                            if (categoryRef != null && categoryRef.equals("category/mQWS7VpkMR6BPlhknobM")) {
-                                tong_thu_lastMonth += amount;
+                            if (month == (currentMonth - 1)) {
+                                if (categoryRef != null && categoryRef.equals("category/mQWS7VpkMR6BPlhknobM")) {
+                                    tong_thu_lastMonth += amount;
+                                }
                             }
+
                         }
-                        updateUI(rootView);
-                        isDataLoaded = true;
                     }
+                    updateUI(rootView);
+                    isDataLoaded = true;
                 } else {
                     Log.d("debug", "Lỗi khi lấy dữ liệu: ", task.getException());
                 }
