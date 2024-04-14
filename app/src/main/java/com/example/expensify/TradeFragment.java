@@ -176,6 +176,7 @@ public class TradeFragment extends Fragment {
                                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                                 balanceTextView.setText(decimalFormat.format(balance));
                             }
+                            Log.d(TAG, "Balance: " + balance);
                             transactionAdapter.notifyDataSetChanged();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -187,9 +188,9 @@ public class TradeFragment extends Fragment {
     private double getBalance() {
         double balance = 0;
         for (TransactionModel transaction: transactionModelArrayList) {
-            if ("category/0sZQzPZx64wLdM4aauqZ".equals(transaction.getId())) {
+            if ("category/0sZQzPZx64wLdM4aauqZ".equals(transaction.getCategoryId())) {
                 balance = balance - transaction.getAmount();
-            } else {
+            } else if ("category/mQWS7VpkMR6BPlhknobM".equals(transaction.getCategoryId())) {
                 balance = balance + transaction.getAmount();
             }
         }
