@@ -182,6 +182,11 @@
             android:layout_marginTop="5dp"
             android:text="@string/update"
             android:textSize="16sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:layout_gravity="start"/>
 
     </LinearLayout>
 </ScrollView>

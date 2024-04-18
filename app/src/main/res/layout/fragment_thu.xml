@@ -110,7 +110,11 @@
                 android:layout_marginTop="25dp"
                 android:text="@string/update"
                 android:textSize="16sp" />
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_arrow_forward_24"
+                android:layout_gravity="end"/>
         </LinearLayout>
 
     </ScrollView>
