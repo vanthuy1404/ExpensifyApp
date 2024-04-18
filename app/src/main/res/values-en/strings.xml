@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Expensify</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="totalIncome_currentMonth">Total income this month</string>
     <string name="totalOutcome_currentMonth">Total expenses this month</string>
@@ -33,5 +33,28 @@
     <string name="content">Content</string>
     <string name="amount">Amount</string>
     <string name="add">Add</string>
+    <string name="wallet">Cash</string>
+    <string name="balance">Balance</string>
+    <string name="back">Back</string>
+    <string name="edit">Edit</string>
+    <string name="deleteTransaction">Delete transaction</string>
+    <string name="dateTime">Time</string>
+    <string name="detailCategory">Category</string>
+    <string name="selectDate">Select date</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="fullname">Full name</string>
+    <string name="telephone">Telephone</string>
+    <string name="editProfile">Edit profile</string>
+    <string name="login">Login</string>
+    <string name="forgetPassword">Forget password?</string>
+    <string name="recommendRegister">Not yet registered? Sign up</string>
+    <string name="signup">Sign up</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="recommendLogin">Already had account? Login</string>
+    <string name="enterEmail">Enter your email address:</string>
+    <string name="reset">Reset</string>
+    <string name="logout">Log Out</string>
+
 >>>>>>> master
 </resources>

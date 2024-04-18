@@ -55,7 +55,7 @@ public class AddFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private FirebaseFirestore fireStore;
-
+    private FirebaseAuth auth;
     Spinner languageChange;
     private String categoryID;
 
@@ -119,9 +119,6 @@ public class AddFragment extends Fragment {
             "Autres"
     };
 
-    private FirebaseAuth auth;
-
-
     public static final String[] languages = { "Vietnamese", "English", "French" };
 
     private ArrayAdapter<String> adapter;
@@ -163,6 +160,7 @@ public class AddFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        auth = FirebaseAuth.getInstance();
     }
 
     private void ResetInputField() {
@@ -188,6 +186,7 @@ public class AddFragment extends Fragment {
         String expenseContent = editTextExpenseContent.getText().toString();
         String dateString = editTextDate.getText().toString();
         String expenseSelectionCategory = spinnerSelectionCategory.getSelectedItem().toString();
+        String userId = auth.getCurrentUser().getUid();
 
         Map<String, Object> expense = new HashMap<>();
 
@@ -196,8 +195,7 @@ public class AddFragment extends Fragment {
         expense.put("note", expenseContent);
         expense.put("category_detail", expenseSelectionCategory);
         expense.put("category_id", categoryID);
-
-        expense.put("user_id", auth.getCurrentUser());
+        expense.put("user_id", "user/" + userId);
 
         AlertDialog ad = new AlertDialog.Builder(getActivity())
                 .create();

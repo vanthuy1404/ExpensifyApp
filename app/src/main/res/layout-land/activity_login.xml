@@ -32,7 +32,7 @@
                     android:id="@+id/loginText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textAlignment="center"
                     android:textColor="@color/lavender"
                     android:textSize="36sp"
@@ -70,7 +70,7 @@
                     android:layout_height="60dp"
                     android:layout_marginTop="15dp"
                     android:backgroundTint="@color/lavender"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textSize="20sp"
                     app:cornerRadius="20dp" />
 
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:padding="8dp"
-                    android:text="Forgot Password?"
+                    android:text="@string/forgetPassword"
                     android:textColor="@color/lavender"
                     android:textSize="16sp" />
 
@@ -110,7 +110,7 @@
                     android:layout_marginTop="0dp"
                     android:padding="8dp"
                     android:layout_marginLeft="180dp"
-                    android:text="Not yet registered? Sign Up"
+                    android:text="@string/recommendRegister"
                     android:textAlignment="center"
                     android:textColor="@color/lavender"
                     android:textSize="18sp" />

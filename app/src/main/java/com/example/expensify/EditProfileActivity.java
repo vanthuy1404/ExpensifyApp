@@ -68,8 +68,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Log.d("Firestore", "User updated successfully");
                                 Toast.makeText(EditProfileActivity.this, "User updated successfully", Toast.LENGTH_SHORT).show();
-//                                Intent intent = new Intent(EditProfileActivity.this, UserFragment.class);
-//                                startActivity(intent);
+                                finish();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -85,8 +84,9 @@ public class EditProfileActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditProfileActivity.this, UserFragment.class);
-                startActivity(intent);
+//                Intent intent = new Intent(EditProfileActivity.this, UserFragment.class);
+//                startActivity(intent);
+                finish();
             }
         });
     }

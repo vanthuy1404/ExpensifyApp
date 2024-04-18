@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/name"
                     android:layout_weight="1"
-                    android:text="Name"
+                    android:text="@string/fullname"
                     android:textStyle="bold"
                     android:textColor="@color/lavender"
                     android:textSize="18sp"/>
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/telepphone"
                     android:layout_weight="1"
-                    android:text="Telephone"
+                    android:text="@string/telephone"
                     android:textStyle="bold"
                     android:textColor="@color/lavender"
                     android:textSize="18sp"/>
@@ -207,7 +207,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:gravity="center"
-            android:text="Edit Profile"
+            android:text="@string/editProfile"
             android:textSize="18sp"
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
