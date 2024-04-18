@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private FirebaseAuth auth;
     TextView forgotPassword;
+    private boolean isLoggingIn = false;
 
 
     @Override
@@ -68,6 +70,12 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.putString("email", email);
+                                        editor.putString("password", pass);
+                                        editor.apply();
+                                        isLoggingIn = true;
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -138,5 +146,25 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (!isLoggingIn) {
+            // Kiểm tra xem đã có thông tin đăng nhập hay chưa
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            String email = preferences.getString("email", "");
+            String password = preferences.getString("password", "");
+
+            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+                // Đã có thông tin đăng nhập, chuyển hướng đến trang chính
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish(); // Đóng LoginActivity để người dùng không quay lại nó khi nhấn nút back
+            }
+        }
+    }
+
+
 }

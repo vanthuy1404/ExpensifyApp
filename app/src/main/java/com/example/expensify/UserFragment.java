@@ -1,6 +1,8 @@
 package com.example.expensify;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -189,7 +191,11 @@ public class UserFragment extends Fragment {
     private void exitAccount() {
         // Clear the user's authentication session
         FirebaseAuth.getInstance().signOut();
-
+        SharedPreferences preferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("email");
+        editor.remove("password");
+        editor.apply();
         // Finish the current activity and return to the login screen
         getActivity().finish();
         startActivity(new Intent(getActivity(), LoginActivity.class));
