@@ -121,20 +121,20 @@ public class TradeFragment extends Fragment {
 
         return view;
     }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView transactionsView = view.findViewById(R.id.transactions_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        transactionsView.setLayoutManager(layoutManager);
-        transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
-        transactionsView.setAdapter(transactionAdapter);
-
-        balanceTextView = view.findViewById(R.id.txtBalance);
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        balanceTextView.setText(decimalFormat.format(balance));
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        RecyclerView transactionsView = view.findViewById(R.id.transactions_recycler_view);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+//        transactionsView.setLayoutManager(layoutManager);
+//        transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
+//        transactionsView.setAdapter(transactionAdapter);
+//
+//        balanceTextView = view.findViewById(R.id.txtBalance);
+//        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+//        balanceTextView.setText(decimalFormat.format(balance));
+//    }
 
     private void loadData() {
         transactionModelArrayList.clear();

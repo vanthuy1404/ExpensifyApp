@@ -25,7 +25,7 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="&lt; Sổ giao dịch"
+                android:text="Quay lại"
                 android:background="@android:color/transparent"
                 android:textColor="@color/black" />
 
@@ -126,10 +126,10 @@
 
         <Button
             android:id="@+id/btnDelete"
-            android:layout_marginHorizontal="8dp"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/red"
             android:text="Xóa giao dịch"
             android:textColor="@color/white"

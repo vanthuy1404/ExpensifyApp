@@ -32,7 +32,7 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:padding="12dp"
             android:background="@color/white">
             <TableRow
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="18dp"
+                    android:textSize="16dp"
                     android:text="Chọn lịch" />
                 <ImageButton
                     android:id="@+id/datePicker"
@@ -76,7 +76,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="top"
-                    android:textSize="18dp"
+                    android:textSize="16dp"
                     android:text="Tiền lương tháng 3Tiền lương tháng 3 Tiền lương tháng 3 Tiền lương tháng 3 Tiền lương tháng 3 Tiền lương tháng 3 Tiền lương tháng 3 iền lương tháng 3iền lương tháng 3iền lương tháng 3iền lương tháng 3iền lương tháng 3" />
             </TableRow>
             <TableRow
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="32dp"
+                    android:textSize="20dp"
                     android:text="200.000.000" />
             </TableRow>
         </TableLayout>
@@ -125,9 +125,10 @@
         <Button
             android:id="@+id/btnSave"
             android:layout_marginHorizontal="8dp"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/green"
             android:text="@string/save"
             android:textColor="@color/white"
