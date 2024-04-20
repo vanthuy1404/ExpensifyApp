@@ -134,17 +134,6 @@ public class TradeFragment extends Fragment {
         balanceTextView.setText(decimalFormat.format(balance));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (!isFirstRender) {
-//            // Reload data to update balanceTextView
-//            resetUI();
-//            loadData();
-//        }
-//        isFirstRender = false;
-    }
-
     private void loadData() {
         transactionModelArrayList.clear();
 //       firebaseFirestore.collection("expense").document();

@@ -77,15 +77,22 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     TransactionModel transaction = transactionModelArrayList.get(position);
-                    TransactionDetailFragment fragment = new TransactionDetailFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("transaction", transaction);
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.Frame_layout, fragment)
-                            .addToBackStack(null)
-                            .commit();
+
+//                    Open new activity view
+                    Intent intent = new Intent(context, TransactionDetailActivity.class);
+                    intent.putExtra("transaction", transaction);
+                    context.startActivity(intent);
+
+
+//                    TransactionDetailFragment fragment = new TransactionDetailFragment();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("transaction", transaction);
+//                    fragment.setArguments(bundle);
+//                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+//                    fragmentManager.beginTransaction()
+//                            .replace(R.id.Frame_layout, fragment)
+//                            .addToBackStack(null)
+//                            .commit();
 //                    Intent intent = new Intent(context, TransactionDetailFragment.class);
 
                 }
