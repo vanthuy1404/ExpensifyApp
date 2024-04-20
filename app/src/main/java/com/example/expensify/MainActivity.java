@@ -1,6 +1,5 @@
 package com.example.expensify;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -11,25 +10,31 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigationrail.NavigationRailView;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    private LocaleManager localeManager;
     private Fragment addFragment, tradeFragment, reportFragment, userFragment;
+    private SavedConfiguration<Integer> savedNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+        localeManager = new LocaleManager(this);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        savedNavigation = new SavedConfiguration<>("nav", "current_section");
+
+        if (!savedNavigation.getValue().isPresent()) {
+            savedNavigation.save(R.id.trade);
+        }
 
         addFragment = new AddFragment();
         tradeFragment = new TradeFragment();
@@ -38,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
 
-        loadFragment(tradeFragment);
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+                savedNavigation.save(item.getItemId());
                 int itemId = item.getItemId();
                 if (itemId == R.id.add) {
                     loadFragment(addFragment);
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        bottomNavigationView.setSelectedItemId(savedNavigation.getValue().get());
+
         if (ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
             NotificationChannel channel = null;
@@ -73,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public LocaleManager getLocaleManager() {
+        return localeManager;
+    }
+
     private void loadFragment(Fragment fragment) {
-        // Chuyển đổi fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.Frame_layout, fragment);

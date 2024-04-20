@@ -56,6 +56,7 @@ public class AddFragment extends Fragment {
     private String mParam2;
     private FirebaseFirestore fireStore;
     private FirebaseAuth auth;
+    private LocaleManager localeManager;
     Spinner languageChange;
     private String categoryID;
 
@@ -263,7 +264,7 @@ public class AddFragment extends Fragment {
             myCalendar.getTime();
         });
 
-        userLanguage = requireActivity().getSharedPreferences("userLanguage", requireActivity().MODE_PRIVATE);
+        localeManager = ((MainActivity) requireActivity()).getLocaleManager();
 
         languageChange = getView().findViewById(R.id.languageSpinner);
 
@@ -272,13 +273,9 @@ public class AddFragment extends Fragment {
         languageChange.setAdapter(languageAdapter);
         languageChange.setSelection(0);
 
-        String currentLocale = userLanguage.getString("language", "vi");
-        String activityLocale = requireActivity().getResources().getConfiguration().getLocales().get(0).getLanguage();
+        String currentLocale = localeManager.getCurrentLocaleCode();
         Spinner categorySelect = getView().findViewById(R.id.spinnerCategory);
 
-        if (!activityLocale.equals(currentLocale)) {
-            setLocale(currentLocale);
-        }
         if (currentLocale.equals("vi")) {
             languageChange.setSelection(0);
         }
@@ -288,6 +285,7 @@ public class AddFragment extends Fragment {
         else if (currentLocale.equals("fr")) {
             languageChange.setSelection(2);
         }
+
         languageChange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -325,11 +323,11 @@ public class AddFragment extends Fragment {
                         }
                     });
                     if (!currentLocale.equals("vi")) {
-                        setLocale("vi");
+                        localeManager.setLocale("vi");
                     }
                 }
                 else if (("English").equals(item.toString())) {
-                    String currentLocale = userLanguage.getString("language", "en");
+                    String currentLocale = localeManager.getCurrentLocaleCode();
                     adapter = new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_item, categoryEng);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     categorySelect.setAdapter(adapter);
@@ -361,7 +359,7 @@ public class AddFragment extends Fragment {
                         }
                     });
                     if (!currentLocale.equals("en")) {
-                        setLocale("en");
+                        localeManager.setLocale("en");
                     }
                 }
                 else if (("French").equals(item.toString())) {
@@ -397,7 +395,7 @@ public class AddFragment extends Fragment {
                         }
                     });
                     if (!currentLocale.equals("fr")) {
-                        setLocale("fr");
+                        localeManager.setLocale("fr");
                     }
                 }
             }
@@ -414,15 +412,4 @@ public class AddFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_add_fragment, container, false);
     }
 
-    private void setLocale(String localeCode){
-        userLanguage.edit().putString("language", localeCode).apply();
-        Resources resources = getResources();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        Configuration configuration = resources.getConfiguration();
-        configuration.setLocale(new Locale(localeCode.toLowerCase()));
-        resources.updateConfiguration(configuration, displayMetrics);
-        configuration.locale = new Locale(localeCode.toLowerCase());
-        resources.updateConfiguration(configuration, displayMetrics);
-        requireActivity().recreate();
-    }
 }
