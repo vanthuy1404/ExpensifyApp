@@ -78,11 +78,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 if (position != RecyclerView.NO_POSITION) {
                     TransactionModel transaction = transactionModelArrayList.get(position);
 
-//                    Open new activity view
+                    // Open new activity view
                     Intent intent = new Intent(context, TransactionDetailActivity.class);
                     intent.putExtra("transaction", transaction);
                     context.startActivity(intent);
-
 
 //                    TransactionDetailFragment fragment = new TransactionDetailFragment();
 //                    Bundle bundle = new Bundle();

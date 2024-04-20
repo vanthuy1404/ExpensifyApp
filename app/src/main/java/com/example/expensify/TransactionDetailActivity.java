@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -105,7 +107,20 @@ public class TransactionDetailActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(v -> {
             Intent intentToUpdate = new Intent(this, EditTransactionActivity.class);
             intentToUpdate.putExtra("transaction", transactionModel);
-            this.startActivity(intentToUpdate);
+            startActivityForResult(intentToUpdate, 123);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123) {
+            if (resultCode == Activity.RESULT_OK) {
+                boolean saveSuccess = data.getBooleanExtra("save_success", false);
+                if (saveSuccess) {
+                    finish();
+                }
+            }
+        }
     }
 }
