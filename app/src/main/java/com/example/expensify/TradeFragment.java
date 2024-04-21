@@ -65,8 +65,8 @@ public class TradeFragment extends Fragment {
     }
     private Context context;
     private TextView balanceTextView;
-    private boolean isFirstRender = true;
-    private double balance;
+    private boolean isDataLoaded = false;
+    private double balance = 0;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -95,8 +95,6 @@ public class TradeFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         transactionModelArrayList = new ArrayList<>();
-
-        loadData();
     }
 
     @Override
@@ -109,15 +107,8 @@ public class TradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trade_fragment, container, false);
-        transactionRecyclerView = view.findViewById(R.id.transactions_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        transactionRecyclerView.setLayoutManager(layoutManager);
-        transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
-        transactionRecyclerView.setAdapter(transactionAdapter);
 
-        balanceTextView = view.findViewById(R.id.txtBalance);
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        balanceTextView.setText(decimalFormat.format(balance));
+        loadDataFromFirestore(view);
 
         return view;
     }
@@ -136,8 +127,7 @@ public class TradeFragment extends Fragment {
 //        balanceTextView.setText(decimalFormat.format(balance));
 //    }
 
-    private void loadData() {
-        transactionModelArrayList.clear();
+    private void loadDataFromFirestore(View rootView) {
 //       firebaseFirestore.collection("expense").document();
         String userId = auth.getCurrentUser().getUid();
         Log.d(TAG, "User ID: " + userId);
@@ -148,8 +138,8 @@ public class TradeFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        double balance = 0;
                         if (task.isSuccessful()) {
+                            transactionModelArrayList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Timestamp createdAtdata = document.getTimestamp("created_at");
                                 long createdMillisecs = createdAtdata.getSeconds() * 1000 + createdAtdata.getNanoseconds() / 1000;
@@ -168,13 +158,18 @@ public class TradeFragment extends Fragment {
                                 transactionModelArrayList.add(model);
 //                                Log.d(TAG, document.getId() + " => " + document.getData());
                             }
+                            Log.d(TAG, "HELLO HERE");
+                            Log.d(TAG, "transactionModelArrayList size: " + String.valueOf(transactionModelArrayList.size()));
                             balance = getBalance();
                             if (balanceTextView != null) {
                                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                                 balanceTextView.setText(decimalFormat.format(balance));
                             }
                             Log.d(TAG, "Balance: " + balance);
-                            transactionAdapter.notifyDataSetChanged();
+//                            transactionAdapter.notifyDataSetChanged();
+
+                            updateUI(rootView);
+                            isDataLoaded = true;
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -183,7 +178,7 @@ public class TradeFragment extends Fragment {
     }
 
     private double getBalance() {
-        double balance = 0;
+        balance = 0;
         for (TransactionModel transaction: transactionModelArrayList) {
             if ("category/0sZQzPZx64wLdM4aauqZ".equals(transaction.getCategoryId())) {
                 balance = balance - transaction.getAmount();
@@ -194,10 +189,22 @@ public class TradeFragment extends Fragment {
         return balance;
     }
 
-    private void resetUI() {
-        // Reset UI elements here
-        // For example, clear RecyclerView data, reset balanceTextView, etc.
-        transactionModelArrayList.clear(); // Clear the ArrayList
-        transactionAdapter.notifyDataSetChanged(); // Notify the adapter that the dataset has changed
+    private void updateUI(View rootView) {
+        transactionRecyclerView = rootView.findViewById(R.id.transactions_recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        transactionRecyclerView.setLayoutManager(layoutManager);
+        transactionAdapter = new TransactionAdapter(context, transactionModelArrayList);
+        transactionRecyclerView.setAdapter(transactionAdapter);
+
+        balanceTextView = rootView.findViewById(R.id.txtBalance);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        balanceTextView.setText(decimalFormat.format(balance));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadDataFromFirestore(getView());
     }
 }
