@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import android.content.Intent;
+import android.preference.Preference;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -76,6 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                                         editor.putString("password", pass);
                                         editor.apply();
                                         isLoggingIn = true;
+
+                                        SharedPreferences fragmentPositionPref = getSharedPreferences("selectedFragment", MODE_PRIVATE);
+                                        SharedPreferences.Editor fragmentPositionEditor = fragmentPositionPref.edit();
+                                        fragmentPositionEditor.remove("selectedFragment");
+                                        fragmentPositionEditor.apply();
+
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

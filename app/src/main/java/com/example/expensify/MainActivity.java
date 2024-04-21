@@ -1,5 +1,7 @@
 package com.example.expensify;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,10 +13,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,11 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private Fragment addFragment, tradeFragment, reportFragment, userFragment;
+    private SharedPreferences pref;
+    private static final int ADD_FRAGMENT_ID = R.id.add;
+    private static final int TRADE_FRAGMENT_ID = R.id.trade;
+    private static final int USER_FRAGMENT_ID = R.id.user;
+    private static final int REPORT_FRAGMENT_ID = R.id.report;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        pref = getPreferences(MODE_PRIVATE);
 
 
         addFragment = new AddFragment();
@@ -37,28 +47,16 @@ public class MainActivity extends AppCompatActivity {
         userFragment = new UserFragment();
 
         // Mặc định hiển thị fragment "Thêm giao dịch"
-
-        loadFragment(tradeFragment);
-
+        int selectedFragmentId = pref.getInt("selectedFragment", R.id.trade);
+        loadFragment(getFragmentById(selectedFragmentId));
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 int itemId = item.getItemId();
-                if (itemId == R.id.add) {
-                    loadFragment(addFragment);
-                    return true;
-                } else if (itemId == R.id.trade) {
-                    loadFragment(tradeFragment);
-                    return true;
-                } else if (itemId == R.id.user) {
-                    loadFragment(userFragment);
-                    return true;
-                } else if (itemId == R.id.report) {
-                    loadFragment(reportFragment);
-                    return true;
-                }
-                return false;
+                saveSelectedFragment(itemId);
+                loadFragment(getFragmentById(itemId));
+                return true;
             }
         });
         if (ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -79,5 +77,29 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.Frame_layout, fragment);
         fragmentTransaction.commit();
+
+        if (fragment instanceof UserFragment) {
+            ((UserFragment) fragment).setMainActivity(this);
+        }
+    }
+
+    private Fragment getFragmentById(int itemId) {
+        if (itemId == R.id.add) {
+            return addFragment;
+        } else if (itemId == R.id.trade) {
+            return tradeFragment;
+        } else if (itemId == R.id.user) {
+            return userFragment;
+        } else if (itemId == R.id.report) {
+            return reportFragment;
+        } else {
+            return null;
+        }
+    }
+
+    private void saveSelectedFragment(int itemId) {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("selectedFragment", itemId);
+        editor.apply();
     }
 }
