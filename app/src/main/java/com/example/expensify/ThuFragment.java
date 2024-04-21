@@ -185,6 +185,10 @@ public class ThuFragment extends Fragment {
     }
 
     private void updateUI(View rootView) {
+        if (!isAdded()) {
+            return;
+        }
+
         TextView luongTextView = rootView.findViewById(R.id.luong);
         TextView thuNhapKhacTextView = rootView.findViewById(R.id.thu_nhap_khac);
         TextView tienChuyenDenTextView = rootView.findViewById(R.id.tien_chuyen_den);
