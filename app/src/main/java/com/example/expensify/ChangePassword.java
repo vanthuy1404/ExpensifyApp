@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class ChangePassword extends AppCompatActivity {
     Button saveButton, returnButton;
     EditText oldPassword, newPassword, confirmPassword;
@@ -106,7 +108,8 @@ public class ChangePassword extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         // Re-authenticate người dùng
-        user.reauthenticate(EmailAuthProvider.getCredential(user.getEmail(), oldPasswordText))
+        assert user != null;
+        user.reauthenticate(EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), oldPasswordText))
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -118,13 +121,22 @@ public class ChangePassword extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            // Nếu cập nhật thành công, cập nhật lại SharedPreferences với mật khẩu mới
-                                            SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = preferences.edit();
-                                            editor.putString("password", newPasswordText);
-                                            editor.apply();
-                                            Toast.makeText(ChangePassword.this, "Mật khẩu đã được thay đổi", Toast.LENGTH_SHORT).show();
-                                            finish();
+                                            currentUser.updatePassword(newPasswordText).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        // Nếu cập nhật thành công, cập nhật lại SharedPreferences với mật khẩu mới
+                                                        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = preferences.edit();
+                                                        editor.putString("password", newPasswordText);
+                                                        editor.apply();
+                                                        Toast.makeText(ChangePassword.this, "Mật khẩu đã được thay đổi", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    } else {
+                                                        Toast.makeText(ChangePassword.this, "Không thể thay đổi mật khẩu", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -136,6 +148,12 @@ public class ChangePassword extends AppCompatActivity {
                         } else {
                             Toast.makeText(ChangePassword.this, "Mật khẩu cũ không chính xác", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ChangePassword.this, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
