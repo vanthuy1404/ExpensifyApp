@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -45,6 +46,37 @@ public class EditProfileActivity extends AppCompatActivity {
         String userId = currentUser.getUid();
 
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("user").document(userId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (doc.exists()) {
+                        String username = doc.getString("username");
+                        Log.d("Document", "Username: " + username);
+                        // Update the UI element with the username
+                        editUsername.setText(username);
+
+                        String email = doc.getString("email");
+                        Log.d("Document", "Email: " + email);
+                        editEmail.setText(email);
+
+                        String name = doc.getString("name");
+                        Log.d("Document", "Name: " + name);
+                        editName.setText(name);
+
+                        String telephone = doc.getString("telephone");
+                        Log.d("Document", "Telephone: " + telephone);
+                        editPhone.setText(telephone);
+                    } else {
+                        Log.d("Document", "No data");
+                    }
+                } else {
+                    // Handle error if the task is not successful
+                    Log.d("Document", "Error: " + task.getException());
+                }
+            }
+        });
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
