@@ -55,6 +55,7 @@
     <string name="enterEmail">Enter your email address:</string>
     <string name="reset">Reset</string>
     <string name="logout">Log Out</string>
+    <string name="changPassword">Change Password</string>
 
 >>>>>>> master
 </resources>

@@ -103,7 +103,7 @@ public class UserFragment extends Fragment {
 
     }
     View view;
-    Button btnEdit, btnExit;
+    Button btnEdit, btnExit, btnChangePassword;
     TextView titleName,titleUsername,profileName, profileEmail, profileUsername,profileTelephone;
 
     private LinearLayout editLayout;
@@ -113,6 +113,7 @@ public class UserFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_user_fragment, container, false);
         btnEdit = view.findViewById(R.id.editButton);
         btnExit = view.findViewById(R.id.exitButton);
+        btnChangePassword = view.findViewById(R.id.changePasswordButton);
 
         titleName = view.findViewById(R.id.titleName);
         titleUsername = view.findViewById(R.id.titleUsername);
@@ -158,6 +159,7 @@ public class UserFragment extends Fragment {
                 }
             }
         });
+
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,9 +185,20 @@ public class UserFragment extends Fragment {
                 editProfile();
             }
         });
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnChangePassword();
+            }
+        });
         return view;
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_user_fragment, container, false);
+    }
+
+    private void btnChangePassword() {
+        Intent intent = new Intent(getActivity(), ChangePassword.class);
+        startActivity(intent);
     }
 
     private void exitAccount() {

@@ -51,5 +51,7 @@
     <string name="enterEmail">Entrez votre adresse email:</string>
     <string name="reset">réinitialiser</string>
     <string name="logout">Se déconnecter</string>
+    <string name="changPassword">Changer le mot de passe
+</string>
 
 </resources>

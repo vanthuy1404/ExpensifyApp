@@ -51,5 +51,6 @@
     <string name="enterEmail">Nhập email của bạn:</string>
     <string name="reset">Tạo lại</string>
     <string name="logout">Đăng xuất</string>
+    <string name="changPassword">Đổi mật khẩu</string>
 
 </resources>
